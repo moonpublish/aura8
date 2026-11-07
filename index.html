@@ -1,0 +1,2662 @@
+<!DOCTYPE html>
+<html lang="th" class="overflow-x-hidden max-w-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Aura Health - Futuristic Medical & Community Hub</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              royal: '#2B47FC',
+              violet: '#4F46E5',
+              deep: '#1E1B4B',
+              neon: '#A3E635',
+              neonHover: '#84CC16',
+              neonLight: '#D9F99D'
+            }
+          },
+          fontFamily: {
+            sans: ['Prompt', 'Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Fonts: Prompt & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- React 18 Production & Babel -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+      font-family: 'Prompt', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    /* Friendly Animated Raindrop Background */
+    @keyframes rainfall {
+      0% {
+        transform: translateY(-24px) scaleY(1);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.75;
+      }
+      80% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(160px) scaleY(1.3);
+        opacity: 0;
+      }
+    }
+    @keyframes rainRipple {
+      0% {
+        transform: scale(0.3);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1.6);
+        opacity: 0;
+      }
+    }
+    @keyframes cloudFloat {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-4px) rotate(0.8deg);
+      }
+    }
+    @keyframes sunGaze {
+      0%, 100% {
+        transform: scale(1) rotate(0deg);
+      }
+      50% {
+        transform: scale(1.06) rotate(6deg);
+      }
+    }
+    .anim-cloud-float {
+      animation: cloudFloat 4s ease-in-out infinite;
+    }
+    .anim-sun-gaze {
+      animation: sunGaze 5s ease-in-out infinite;
+    }
+    .raindrop-streak {
+      position: absolute;
+      width: 2px;
+      border-radius: 9999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(147,197,253,0.6) 50%, rgba(56,189,248,0.95) 100%);
+      pointer-events: none;
+      animation: rainfall 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    /* Frozen Glossy Header Bar Styling matching screenshot */
+    .frozen-glossy-header {
+      background: linear-gradient(180deg, rgba(19, 23, 46, 0.94) 0%, rgba(15, 20, 42, 0.96) 100%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.16);
+    }
+    .frozen-capsule-bg {
+      background: linear-gradient(180deg, rgba(27, 33, 68, 0.85) 0%, rgba(20, 25, 54, 0.92) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.18), 0 8px 20px -6px rgba(0, 0, 0, 0.35);
+    }
+    .frozen-pill-controls {
+      background: linear-gradient(180deg, rgba(27, 33, 68, 0.9) 0%, rgba(22, 28, 58, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), 0 6px 16px -4px rgba(0, 0, 0, 0.35);
+    }
+    .glass-card-dark {
+      background: rgba(30, 27, 75, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .glass-card-light {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(203, 213, 225, 0.9);
+      box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #818cf855;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #818cf8aa;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-[#1E1B4B] via-[#0F172A] to-[#1E1B4B] text-slate-100 antialiased selection:bg-lime-400 selection:text-slate-950 transition-colors duration-300 min-h-screen overflow-x-hidden max-w-full">
+  <div id="root">
+    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0f172a; color: #a3e635; font-family: sans-serif; font-size: 14px;">
+      <div style="text-align: center;">
+        <div style="width: 36px; height: 36px; border: 3px solid #a3e635; border-top-color: transparent; border-radius: 50%; margin: 0 auto 14px auto; animation: spin 0.8s linear infinite;"></div>
+        <div style="font-weight: 600; letter-spacing: 0.5px;">Aura Health กำลังเชื่อมต่อระบบ...</div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // --- Inline Vector Icons ---
+    const Icon = ({ name, className = "w-5 h-5", ...props }) => {
+      const icons = {
+        activity: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2} {...props}><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>,
+        droplets: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5c-.29 1.75-1.14 3.12-2.29 4.06S3 11.09 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/></svg>,
+        flame: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>,
+        pill: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>,
+        camera: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>,
+        heart: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>,
+        users: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+        calendar: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
+        mapPin: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+        check: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.8} {...props}><polyline points="20 6 9 17 4 12"/></svg>,
+        checkCircle: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
+        xCircle: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>,
+        clock: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+        shoppingBag: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>,
+        shoppingCart: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>,
+        shieldCheck: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>,
+        plus: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} {...props}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+        chevronRight: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} {...props}><polyline points="9 18 15 12 9 6"/></svg>,
+        chevronLeft: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} {...props}><polyline points="15 18 9 12 15 6"/></svg>,
+        arrowUpRight: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} {...props}><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>,
+        play: <svg className={className} fill="currentColor" viewBox="0 0 24 24" {...props}><polygon points="5 3 19 12 5 21 5 3"/></svg>,
+        send: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
+        sparkles: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>,
+        alertTriangle: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
+        alertCircle: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
+        zap: <svg className={className} fill="currentColor" viewBox="0 0 24 24" {...props}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+        thermometer: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>,
+        wind: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></svg>,
+        barChart2: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+        award: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>,
+        sun: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>,
+        moon: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>,
+        bell: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
+        testTube: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5h0c-1.4 0-2.5-1.1-2.5-2.5V2"/><path d="M8.5 2h7"/><path d="M14.5 16h-5"/></svg>,
+        stopwatch: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><circle cx="12" cy="14" r="8"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="14" x2="15" y2="11"/></svg>,
+        x: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} {...props}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+        badminton: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><circle cx="8" cy="8" r="5"/><path d="m11.5 11.5 8.5 8.5"/><path d="m16 20 4-4"/><path d="M4 14c2.5 2.5 6 3 7.5 1.5l3-3"/><path d="M14 4c2.5 2.5 3 6 1.5 7.5l-3 3"/></svg>,
+        running: <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}><circle cx="15" cy="4" r="2"/><path d="M6 18l4-3 2 1.5 2-4.5-3-2 1-3 4 2"/><path d="M8 22l3-5"/><path d="M16 14l2 4 4 1"/></svg>
+      };
+      return icons[name] || <span className={className}>•</span>;
+    };
+
+    // --- Comprehensive Venue Database (10+ venues per sport/region) ---
+    const STATIC_VENUES = {
+      badminton: {
+        bkk: [
+          { id: 'b1', name: 'Winner Sports Avenue (รัชดา)', type: 'private', baseCost: 260, open: '08:00 - 24:00', loc: 'รัชดาภิเษก, กทม.', image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&q=80&w=500' },
+          { id: 'b2', name: '71 Sports Club (เอกมัย-รามอินทรา)', type: 'private', baseCost: 280, open: '09:00 - 24:00', loc: 'ลาดพร้าว, กทม.', image: 'https://images.unsplash.com/photo-1544919982-b61976f0ba43?auto=format&fit=crop&q=80&w=500' },
+          { id: 'b3', name: 'B-Pro Lasalle คอร์ทแบดมาตรฐานสากล', type: 'private', baseCost: 250, open: '07:00 - 24:00', loc: 'บางนา, กทม.', image: 'https://images.unsplash.com/photo-1613918431703-aa503fce5e82?auto=format&fit=crop&q=80&w=500' },
+          { id: 'b4', name: 'ศูนย์กีฬาเฉลิมพระเกียรติฯ 84 พรรษา', type: 'public', baseCost: 0, open: '06:00 - 20:00', loc: 'บางบอน, กทม.', image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=500' },
+          { id: 'b5', name: 'สนามแบดมินตันอินดอร์ รัชดา 36', type: 'private', baseCost: 240, open: '10:00 - 24:00', loc: 'จตุจักร, กทม.', image: 'https://images.unsplash.com/photo-1521537634581-0dced2fed2a8?auto=format&fit=crop&q=80&w=500' },
+          { id: 'b6', name: 'S-29 แบดมินตันคลับ นนทบุรี', type: 'private', baseCost: 250, open: '08:00 - 24:00', loc: 'นนทบุรี', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=500' },
+          { id: 'b7', name: 'Grand Badminton คลองหลวง', type: 'private', baseCost: 220, open: '09:00 - 24:00', loc: 'ปทุมธานี', image: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&q=80&w=500' },
+          { id: 'b8', name: 'Pro-Am Badminton รามคำแหง', type: 'private', baseCost: 250, open: '10:00 - 24:00', loc: 'รามคำแหง, กทม.', image: 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&q=80&w=500' },
+          { id: 'b9', name: 'ศูนย์กีฬาประชานิเวศน์', type: 'public', baseCost: 0, open: '06:00 - 21:00', loc: 'จตุจักร, กทม.', image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&q=80&w=500' },
+          { id: 'b10', name: 'PB Sports Complex สมุทรปราการ', type: 'private', baseCost: 230, open: '08:00 - 23:00', loc: 'สมุทรปราการ', image: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&q=80&w=500' }
+        ],
+        chonburi: [
+          { id: 'cb1', name: 'Tassana Garden Badminton ชลบุรี', type: 'private', baseCost: 220, open: '08:00 - 23:00', loc: 'เมืองชลบุรี', image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cb2', name: 'Chonburi Arena Sports Club', type: 'private', baseCost: 240, open: '09:00 - 24:00', loc: 'บางแสน, ชลบุรี', image: 'https://images.unsplash.com/photo-1544919982-b61976f0ba43?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cb3', name: 'สนามแบดมินตันเทศบาลเมืองแสนสุข', type: 'public', baseCost: 0, open: '06:00 - 21:00', loc: 'บางแสน, ชลบุรี', image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cb4', name: 'Pattaya Badminton Club (พัทยาเหนือ)', type: 'private', baseCost: 260, open: '09:00 - 24:00', loc: 'พัทยาเหนือ', image: 'https://images.unsplash.com/photo-1613918431703-aa503fce5e82?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cb5', name: 'Sriracha Arena Sport Park', type: 'private', baseCost: 230, open: '08:00 - 23:00', loc: 'ศรีราชา', image: 'https://images.unsplash.com/photo-1521537634581-0dced2fed2a8?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cb6', name: 'ศูนย์เยาวชนพัทยาใต้', type: 'public', baseCost: 0, open: '06:00 - 20:00', loc: 'พัทยาใต้', image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cb7', name: 'JP Badminton House บ้านบึง', type: 'private', baseCost: 200, open: '10:00 - 22:00', loc: 'บ้านบึง, ชลบุรี', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cb8', name: 'Laem Chabang Badminton Stadium', type: 'private', baseCost: 220, open: '09:00 - 23:00', loc: 'แหลมฉบัง', image: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cb9', name: 'Sattahip Navy Sports Hall', type: 'public', baseCost: 0, open: '06:00 - 20:00', loc: 'สัตหีบ', image: 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cb10', name: 'Bangsang Badminton Center', type: 'private', baseCost: 210, open: '08:00 - 23:00', loc: 'บางแสน', image: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&q=80&w=500' }
+        ],
+        chiangmai: [
+          { id: 'cm1', name: 'C.M. Badminton Stadium (ฟ้าฮ่าม)', type: 'private', baseCost: 220, open: '09:00 - 24:00', loc: 'เมืองเชียงใหม่', image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cm2', name: 'Charisma Badminton Club นิมมาน', type: 'private', baseCost: 250, open: '08:00 - 24:00', loc: 'นิมมานฯ, เชียงใหม่', image: 'https://images.unsplash.com/photo-1544919982-b61976f0ba43?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cm3', name: 'สนามกีฬาสมโภชเชียงใหม่ 700 ปี', type: 'public', baseCost: 0, open: '06:00 - 21:00', loc: 'แม่ริม, เชียงใหม่', image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cm4', name: 'สนามแบดมินตันเทศบาลนครเชียงใหม่', type: 'public', baseCost: 0, open: '06:00 - 20:00', loc: 'ช้างเผือก', image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cm5', name: 'North Sports Badminton สันทราย', type: 'private', baseCost: 210, open: '10:00 - 23:00', loc: 'สันทราย, เชียงใหม่', image: 'https://images.unsplash.com/photo-1613918431703-aa503fce5e82?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cm6', name: 'Apex Badminton Court หางดง', type: 'private', baseCost: 220, open: '08:00 - 23:00', loc: 'หางดง, เชียงใหม่', image: 'https://images.unsplash.com/photo-1521537634581-0dced2fed2a8?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cm7', name: 'Sanpatong Sports Arena', type: 'private', baseCost: 200, open: '09:00 - 22:00', loc: 'สันป่าตอง', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cm8', name: 'ศูนย์กีฬาเฉลิมพระเกียรติ ม.แม่โจ้', type: 'public', baseCost: 0, open: '06:00 - 20:00', loc: 'แม่โจ้', image: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cm9', name: 'Lanna Badminton Hall', type: 'private', baseCost: 230, open: '09:00 - 23:00', loc: 'แม่เหียะ, เชียงใหม่', image: 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&q=80&w=500' },
+          { id: 'cm10', name: 'Airport Badminton Club เชียงใหม่', type: 'private', baseCost: 240, open: '08:00 - 24:00', loc: 'ใกล้สนามบิน เชียงใหม่', image: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&q=80&w=500' }
+        ]
+      },
+      running: {
+        bkk: [
+          { id: 'r1', name: 'สวนเบญจกิติ (Forest Park)', type: 'public', baseCost: 0, open: '04:30 - 22:00', loc: 'คลองเตย, กทม.', image: 'https://images.unsplash.com/photo-1519331379826-f10be5486c6f?auto=format&fit=crop&q=80&w=500' },
+          { id: 'r2', name: 'สวนลุมพินี (Lumpini Park)', type: 'public', baseCost: 0, open: '04:30 - 22:00', loc: 'ปทุมวัน, กทม.', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=500' },
+          { id: 'r3', name: 'สวนรถไฟ (สวนวชิรเบญจทัศ)', type: 'public', baseCost: 0, open: '05:00 - 21:00', loc: 'จตุจักร, กทม.', image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80&w=500' },
+          { id: 'r4', name: 'สวนหลวง ร.๙', type: 'public', baseCost: 0, open: '05:00 - 19:00', loc: 'ประเวศ, กทม.', image: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&q=80&w=500' },
+          { id: 'r5', name: 'Sky Lane สุวรรณภูมิ', type: 'public', baseCost: 0, open: '05:30 - 20:30', loc: 'สมุทรปราการ', image: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&q=80&w=500' },
+          { id: 'r6', name: 'สวนจตุจักร', type: 'public', baseCost: 0, open: '04:30 - 22:00', loc: 'จตุจักร, กทม.', image: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=500' },
+          { id: 'r7', name: 'สวนสราญรมย์', type: 'public', baseCost: 0, open: '05:00 - 21:00', loc: 'พระนคร, กทม.', image: 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&q=80&w=500' },
+          { id: 'r8', name: 'ศูนย์กีฬาทางน้ำบึงหนองบอน', type: 'public', baseCost: 0, open: '05:00 - 19:00', loc: 'ประเวศ, กทม.', image: 'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&q=80&w=500' },
+          { id: 'r9', name: 'อุทยาน 100 ปี จุฬาฯ', type: 'public', baseCost: 0, open: '05:00 - 22:00', loc: 'สามย่าน, กทม.', image: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&q=80&w=500' },
+          { id: 'r10', name: 'สวนสมเด็จพระนางเจ้าสิริกิติ์ฯ', type: 'public', baseCost: 0, open: '05:00 - 20:00', loc: 'จตุจักร, กทม.', image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=500' }
+        ],
+        chonburi: [
+          { id: 'rc1', name: 'ลู่วิ่งชายหาดบางแสน (Promenade)', type: 'public', baseCost: 0, open: '04:30 - 23:00', loc: 'บางแสน, ชลบุรี', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=500' },
+          { id: 'rc2', name: 'สะพานเลียบชายทะเลชลบุรี (ชลมารควิถี)', type: 'public', baseCost: 0, open: '05:00 - 22:00', loc: 'เมืองชลบุรี', image: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&q=80&w=500' },
+          { id: 'rc3', name: 'อ่างเก็บน้ำบางพระ (สันเขื่อน)', type: 'public', baseCost: 0, open: '05:30 - 18:30', loc: 'ศรีราชา, ชลบุรี', image: 'https://images.unsplash.com/photo-1519331379826-f10be5486c6f?auto=format&fit=crop&q=80&w=500' },
+          { id: 'rc4', name: 'สวนสุขภาพเกาะลอย ศรีราชา', type: 'public', baseCost: 0, open: '05:00 - 21:00', loc: 'ศรีราชา', image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80&w=500' },
+          { id: 'rc5', name: 'สวนสาธารณะเขาพระตำหนัก พัทยา', type: 'public', baseCost: 0, open: '05:00 - 21:00', loc: 'พัทยาใต้', image: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=500' }
+        ],
+        chiangmai: [
+          { id: 'rm1', name: 'อ่างแก้ว มหาวิทยาลัยเชียงใหม่ (มช.)', type: 'public', baseCost: 0, open: '05:00 - 22:00', loc: 'มช., เชียงใหม่', image: 'https://images.unsplash.com/photo-1519331379826-f10be5486c6f?auto=format&fit=crop&q=80&w=500' },
+          { id: 'rm2', name: 'ห้วยตึงเฒ่า เชียงใหม่', type: 'public', baseCost: 0, open: '06:00 - 18:00', loc: 'แม่ริม, เชียงใหม่', image: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&q=80&w=500' },
+          { id: 'rm3', name: 'สวนบวกหาด', type: 'public', baseCost: 0, open: '05:00 - 21:00', loc: 'คูเมืองเชียงใหม่', image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80&w=500' },
+          { id: 'rm4', name: 'สนามกีฬาสมโภช 700 ปี', type: 'public', baseCost: 0, open: '05:30 - 21:00', loc: 'แม่ริม', image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=500' },
+          { id: 'rm5', name: 'สวนล้านนา ร.๙ เชียงใหม่', type: 'public', baseCost: 0, open: '05:00 - 19:00', loc: 'ช้างเผือก', image: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=500' }
+        ]
+      }
+    };
+
+    const STATIC_TRAINERS = [
+      { id: 't1', name: 'โค้ชภานุวัฒน์ (โค้ชเบิร์ด)', exp: 'ประสบการณ์ 8 ปี', role: 'Certified BWF Level 2', rate: 500, img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=250' },
+      { id: 't2', name: 'โค้ชกุลธิดา (โค้ชเมย์)', exp: 'ประสบการณ์ 6 ปี', role: 'นักกีฬาเยาวชนทีมชาติ', rate: 550, img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=250' },
+      { id: 't3', name: 'โค้ชธีรพงศ์ (โค้ชอาร์ท)', exp: 'ประสบการณ์ 10 ปี', role: 'USATF Running Coach', rate: 600, img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=250' },
+      { id: 't4', name: 'โค้ชศิริพร (โค้ชแป้ง)', exp: 'ประสบการณ์ 7 ปี', role: 'เวชศาสตร์การกีฬา & ปรับสรีระ', rate: 500, img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=250' },
+      { id: 't5', name: 'โค้ชวรเมธ (โค้ชบอส)', exp: 'ประสบการณ์ 5 ปี', role: 'Strength & Bodyweight', rate: 450, img: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&q=80&w=250' },
+      { id: 't6', name: 'โค้ชนภัสสร (โค้ชจูน)', exp: 'ประสบการณ์ 9 ปี', role: 'นักโภชนาการกีฬา', rate: 550, img: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=250' },
+      { id: 't7', name: 'โค้ชชัยวัฒน์ (โค้ชชัย)', exp: 'ประสบการณ์ 12 ปี', role: 'อดีตผู้ฝึกสอนสมาคมกีฬาฯ', rate: 650, img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=250' }
+    ];
+
+    const STATIC_HOURLY_SLOTS = [
+      '16:00 - 17:00 น.', '17:00 - 18:00 น.', '18:00 - 19:00 น.',
+      '19:00 - 20:00 น.', '20:00 - 21:00 น.', '21:00 - 22:00 น.',
+      '22:00 - 23:00 น.', '23:00 - 24:00 น.'
+    ];
+
+    const STATIC_PAID_COURSES = [
+      {
+        id: 1,
+        title: 'โปรแกรม 4 สัปดาห์: สลายไขมันกระชับต้นขา & สะโพกสวย',
+        category: 'ลดน้ำหนัก & กระชับสัดส่วน',
+        duration: '4 สัปดาห์ (16 บทเรียน)',
+        price: 590,
+        originalPrice: 1290,
+        rating: 4.9,
+        reviewsCount: 342,
+        instructor: 'โค้ชป๊อบ Certified Master Trainer',
+        targetResult: 'ลดรอบต้นขา 3-5 ซม., กระชับก้นและลดเซลลูไลท์',
+        thumb: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=600',
+        chapters: [
+          { title: 'บทที่ 1: วอร์มอัพ & ปรับระบบหมุนเวียนน้ำเหลืองต้นขา', duration: '18 นาที' },
+          { title: 'บทที่ 2: ท่าสควอท & เลกลังจ์เจาะจงกล้ามเนื้อขาด้านใน', duration: '25 นาที' },
+          { title: 'บทที่ 3: HIIT สลายไขมันสะสมเฉพาะจุด', duration: '30 นาที' },
+          { title: 'บทที่ 4: Cool-down ยืดเหยียดคืนความยืดหยุ่น', duration: '15 นาที' }
+        ]
+      },
+      {
+        id: 2,
+        title: 'คอร์สสร้างแกนกลางลำตัว & หน้าท้องร่อง 11 ใน 60 วัน',
+        category: 'สร้างกล้ามเนื้อ',
+        duration: '8 สัปดาห์ (24 บทเรียน)',
+        price: 1290,
+        originalPrice: 2500,
+        rating: 4.8,
+        reviewsCount: 218,
+        instructor: 'ดร. เอเลน่า แว้นซ์ (เวชศาสตร์การกีฬา)',
+        targetResult: 'สร้างหน้าท้องร่อง 11 ชัดเจน, ลดไขมันหน้าท้องล่าง',
+        thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=600',
+        chapters: [
+          { title: 'บทที่ 1: ปรับโครงสร้างกระดูกเชิงกราน & หายใจ Abdominal', duration: '20 นาที' },
+          { title: 'บทที่ 2: Isometric Plank & Deadbug สำหรับแกนกลาง', duration: '30 นาที' }
+        ]
+      },
+      {
+        id: 3,
+        title: 'บำบัดออฟฟิศซินโดรม & ปรับบุคลิกภาพแนวกระดูกสันหลัง',
+        category: 'ออฟฟิศซินโดรม & ยืดเหยียด',
+        duration: '2 สัปดาห์ (10 บทเรียน)',
+        price: 490,
+        originalPrice: 990,
+        rating: 5.0,
+        reviewsCount: 512,
+        instructor: 'กส.นพ. ชัยอนันต์ (นักกายภาพบำบัด)',
+        targetResult: 'คลายปวดสะบัก คอ บ่า ไหล่ และปรับแนวกระดูกสันหลัง',
+        thumb: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=600',
+        chapters: [
+          { title: 'บทที่ 1: คลายพังผืดกล้ามเนื้อคอบ่าไหล่ (Myofascial Release)', duration: '15 นาที' },
+          { title: 'บทที่ 2: ปรับความสมดุลข้อต่อสะโพกและกระดูกเชิงกราน', duration: '20 นาที' }
+        ]
+      },
+      {
+        id: 4,
+        title: 'โปรแกรมโภชนาการควบคู่เวทเทรนนิ่งปั้นหุ่นฟิต 90 วัน',
+        category: 'สร้างกล้ามเนื้อ',
+        duration: '12 สัปดาห์ (36 บทเรียน)',
+        price: 1990,
+        originalPrice: 3500,
+        rating: 4.9,
+        reviewsCount: 189,
+        instructor: 'โค้ชมายด์ (Maya) & นักกำหนดอาหารคลินิก',
+        targetResult: 'สร้างมวลกล้ามเนื้อ + 2.5 กก., เร่งระบบเมตาบอลิซึม 24/7',
+        thumb: 'https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&q=80&w=600',
+        chapters: [
+          { title: 'บทที่ 1: คำนวณ TDEE & จัดสัดส่วนอาหารตามเป้าหมาย', duration: '25 นาที' },
+          { title: 'บทที่ 2: Hypertrophy Upper Body Workout', duration: '40 นาที' }
+        ]
+      },
+      {
+        id: 5,
+        title: 'Pilates Core Mat & Sculpt ปรับแนวกระดูกเชิงกราน',
+        category: 'ลดน้ำหนัก & กระชับสัดส่วน',
+        duration: '6 สัปดาห์ (18 บทเรียน)',
+        price: 890,
+        originalPrice: 1790,
+        rating: 4.95,
+        reviewsCount: 275,
+        instructor: 'ครูแพรว STOTT Pilates Certified',
+        targetResult: 'กระชับแกนกลางลึก ลดอาการปวดหลังล่าง สรีระเพรียวกระชับ',
+        thumb: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=600',
+        chapters: [
+          { title: 'บทที่ 1: Pelvic Clock & Neutral Spine Fundamentals', duration: '20 นาที' }
+        ]
+      },
+      {
+        id: 6,
+        title: 'Zone 2 Cardio & Metabolic Reset วิ่งคุมโซนลดไขมันลึก',
+        category: 'ลดน้ำหนัก & กระชับสัดส่วน',
+        duration: '4 สัปดาห์ (12 บทเรียน)',
+        price: 690,
+        originalPrice: 1490,
+        rating: 4.88,
+        reviewsCount: 310,
+        instructor: 'โค้ชอาร์ท USATF Running Coach',
+        targetResult: 'เพิ่มความจุหัวใจ VO2 Max, สลายไขมันสะสมในช่องท้อง',
+        thumb: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&q=80&w=600',
+        chapters: [
+          { title: 'บทที่ 1: วัดค่า Heart Rate Zones & คำนวณขีดจำกัด Lactate', duration: '22 นาที' }
+        ]
+      }
+    ];
+
+    const STATIC_FREE_WORKOUTS = [
+      {
+        id: 101,
+        title: 'HIIT สลายไขมันกระชับต้นขา & สะโพก (25 นาที)',
+        category: 'กระชับต้นขา',
+        duration: '25 นาที',
+        cal: '280 kcal',
+        level: 'ระดับปานกลาง',
+        instructor: 'โค้ชมายด์ (Maya)',
+        thumb: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=600',
+        steps: ['วอร์มอัพ Sumo Squats (3 นาที)', 'ท่า Curtsy Lunges (3 เซต)', 'ท่า Lateral Leg Raises', 'ยืดเหยียดคูลดาวน์']
+      },
+      {
+        id: 102,
+        title: 'ยืดเหยียดกล้ามเนื้อทั่วร่างกาย & ผ่อนคลายกระดูกสันหลัง',
+        category: 'ยืดเหยียด',
+        duration: '30 นาที',
+        cal: '120 kcal',
+        level: 'ทุกระดับ',
+        instructor: 'โค้ชศิรินทร์',
+        thumb: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=600',
+        steps: ['ยืดกล้ามเนื้อต้นขาด้านหลัง', 'ยืดข้อต่อสะโพก Hip Flexors', 'หมุนกระดูกสันหลังคลายปวดสะบัก']
+      },
+      {
+        id: 103,
+        title: 'Bodyweight Core Burn & กระชับหน้าท้องร่อง 11',
+        category: 'สร้างกล้ามเนื้อ',
+        duration: '20 นาที',
+        cal: '190 kcal',
+        level: 'ทุกระดับ',
+        instructor: 'โค้ชบอส Strength Specialist',
+        thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=600',
+        steps: ['Forearm Plank 45 วินาที', 'Deadbug ช้าๆ คุมแกนกลาง', 'Mountain Climbers 30 วินาที']
+      },
+      {
+        id: 104,
+        title: 'Desk Yoga & คลายคอบ่าไหล่ฉบับชาวออฟฟิศ',
+        category: 'ออฟฟิศซินโดรม',
+        duration: '15 นาที',
+        cal: '75 kcal',
+        level: 'ระดับเริ่มต้น',
+        instructor: 'ครูแป้ง นักกายภาพบำบัด',
+        thumb: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&q=80&w=600',
+        steps: ['ยืดกล้ามเนื้อ Trapezius', 'เปิดหน้าอกและสะบัก', 'บิดลำตัวบนเก้าอี้']
+      }
+    ];
+
+    const STATIC_SAMPLE_FOODS = [
+      {
+        id: 'f1',
+        category: 'โลว์คาร์บ/คีโต',
+        name: 'ขนมปังอะโวคาโด & ไข่ต้มยางมะตูม',
+        calories: 420,
+        protein: 18,
+        carbs: 32,
+        fat: 22,
+        glycemicIndex: 'ต่ำ (GI 35)',
+        alignment: 'เหมาะอย่างยิ่งสำหรับการกระชับสัดส่วนและป้องกันระดับน้ำตาลในเลือดพุ่งสูงช่วงเช้า',
+        image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&q=80&w=500'
+      },
+      {
+        id: 'f2',
+        category: 'โปรตีนสูง',
+        name: 'สลัดแซลมอนย่างคินัวพาวเวอร์โบวล์',
+        calories: 580,
+        protein: 42,
+        carbs: 45,
+        fat: 20,
+        glycemicIndex: 'ต่ำมาก (GI 28)',
+        alignment: 'โปรตีนสูงจากปลาแซลมอนช่วยฟื้นฟูกล้ามเนื้อและเร่งอัตราการเผาผลาญไขมันลึก',
+        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=500'
+      },
+      {
+        id: 'f3',
+        category: 'ลดไขมัน/ลีน',
+        name: 'อกไก่ย่างสมุนไพร & ข้าวไรซ์เบอร์รีบล็อกโคลี',
+        calories: 390,
+        protein: 48,
+        carbs: 34,
+        fat: 6,
+        glycemicIndex: 'ต่ำ (GI 38)',
+        alignment: 'ไขมันต่ำมาก เหมาะสำหรับช่วงคุมแคลอรีลีนไขมันหน้าท้องโดยไม่สูญเสียมวลกล้ามเนื้อ',
+        image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&q=80&w=500'
+      },
+      {
+        id: 'f4',
+        category: 'เมนูสุขภาพไทย',
+        name: 'ต้มยำกุ้งน้ำใสเห็ดรวม & ผักสดพื้นบ้าน',
+        calories: 220,
+        protein: 28,
+        carbs: 12,
+        fat: 4,
+        glycemicIndex: 'ต่ำมาก (GI 20)',
+        alignment: 'แคลอรีต่ำ อุดมด้วยสมุนไพรไทย ข่า ตะไคร้ ใบมะกรูด ช่วยกระตุ้นระบบย่อยและเผาผลาญ',
+        image: 'https://images.unsplash.com/photo-1569562211093-4ed0d0758f12?auto=format&fit=crop&q=80&w=500'
+      },
+      {
+        id: 'f5',
+        category: 'ลดไขมัน/ลีน',
+        name: 'อาซาอิเบอร์รีโบวล์ & กราโนล่าไม่เติมน้ำตาล',
+        calories: 310,
+        protein: 10,
+        carbs: 48,
+        fat: 8,
+        glycemicIndex: 'ต่ำ (GI 40)',
+        alignment: 'อุดมด้วยสารต้านอนุมูลอิสระ Anthocyanin บำรุงผิวพรรณสดใสและช่วยฟื้นฟูเซลล์หลังออกกำลังกาย',
+        image: 'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&q=80&w=500'
+      },
+      {
+        id: 'f6',
+        category: 'โปรตีนสูง',
+        name: 'สเต็กทูน่าย่างพริกไทยดำ & หน่อไม้ฝรั่งอบ',
+        calories: 440,
+        protein: 46,
+        carbs: 16,
+        fat: 14,
+        glycemicIndex: 'ต่ำมาก (GI 18)',
+        alignment: 'กรดไขมันจำเป็น Omega-3 สูง ช่วยลดการอักเสบในหลอดเลือดและส่งเสริมการสร้างกล้ามเนื้อ',
+        image: 'https://images.unsplash.com/photo-1501595091296-3aa970afb3ff?auto=format&fit=crop&q=80&w=500'
+      },
+      {
+        id: 'f7',
+        category: 'โลว์คาร์บ/คีโต',
+        name: 'มัทฉะลาเต้นมอัลมอนด์ & มัฟฟินบลูเบอร์รีคีโต',
+        calories: 360,
+        protein: 12,
+        carbs: 22,
+        fat: 18,
+        glycemicIndex: 'ต่ำ (GI 32)',
+        alignment: 'สาร EGCG ในชาเขียวมัทฉะช่วยเร่งอัตราการเผาผลาญไขมันช่วง Fasting',
+        image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&q=80&w=500'
+      },
+      {
+        id: 'f8',
+        category: 'เมนูสุขภาพไทย',
+        name: 'แกงส้มผักรวมปลาช่อนย่างไม่ใส่น้ำตาล',
+        calories: 270,
+        protein: 34,
+        carbs: 18,
+        fat: 5,
+        glycemicIndex: 'ต่ำมาก (GI 25)',
+        alignment: 'ใยอาหารสูงจากผักพื้นบ้าน ช่วยให้อิ่มนาน ชะลอการดูดซึมน้ำตาลเข้าสู่กระแสเลือด',
+        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=500'
+      }
+    ];
+
+    const STATIC_DEFAULT_MEDS = [
+      { 
+        id: 1, 
+        name: 'Metformin 500mg', 
+        dosage: '1 เม็ด',
+        dosageAmount: 1,
+        timing: 'หลังอาหารเย็น', 
+        time: '20:00 น.', 
+        stock: 12, 
+        minStock: 5,
+        category: 'ยาประจำตัว',
+        notes: 'ช่วยควบคุมระดับน้ำตาลในเลือด ป้องกันภาวะน้ำตาลในเลือดสูงช่วงหลังอาหาร',
+        image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=300' 
+      },
+      { 
+        id: 2, 
+        name: 'Vitamin D3 2000 IU', 
+        dosage: '1 แคปซูล',
+        dosageAmount: 1,
+        timing: 'หลังอาหารเช้า', 
+        time: '09:00 น.', 
+        stock: 24, 
+        minStock: 10,
+        category: 'วิตามิน/อาหารเสริม',
+        notes: 'เสริมสร้างภูมิคุ้มกัน ช่วยการดูดซึมแคลเซียม บำรุงกระดูก',
+        image: 'https://images.unsplash.com/photo-1550572017-edf7928900f3?auto=format&fit=crop&q=80&w=300' 
+      },
+      { 
+        id: 3, 
+        name: 'น้ำมันปลา Omega-3 1000mg', 
+        dosage: '1 ซอฟต์เจล',
+        dosageAmount: 1,
+        timing: 'หลังอาหารเที่ยง', 
+        time: '13:00 น.', 
+        stock: 4, 
+        minStock: 5,
+        category: 'วิตามิน/อาหารเสริม',
+        notes: 'ลดการอักเสบในเซลล์ บำรุงระบบหลอดเลือดและหัวใจ',
+        image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&q=80&w=300' 
+      },
+      { 
+        id: 4, 
+        name: 'Paracetamol 500mg', 
+        dosage: '1 เม็ด',
+        dosageAmount: 1,
+        timing: 'เมื่อมีไข้/ปวดทุก 4-6 ชม.', 
+        time: '12:00 น.', 
+        stock: 18, 
+        minStock: 6,
+        category: 'ยารักษาตามอาการ',
+        notes: 'บรรเทาอาการปวดระดับเบาถึงปานกลาง และลดไข้',
+        image: 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&q=80&w=300' 
+      }
+    ];
+
+    const STATIC_MARKET_PRODUCTS = [
+      { 
+        name: 'น้ำมันปลา Omega-3 สกัดบริสุทธิ์ (1000mg)', 
+        price: '790 บาท', 
+        tag: 'ส่งด่วนทันที', 
+        properties: 'ช่วยลดระดับไตรกลีเซอไรด์ บำรุงข้อต่อ ยับยั้งการอักเสบในเซลล์',
+        detail: 'บรรจุ 60 ซอฟต์เจล (รับประทานวันละ 1-2 เม็ดหลังอาหาร)'
+      },
+      { 
+        name: 'วิตามิน C 1000mg + ซิงค์ (Zinc)', 
+        price: '450 บาท', 
+        tag: 'เสริมภูมิคุ้มกัน', 
+        properties: 'เสริมสร้างภูมิคุ้มกันร่างกาย ต้านอนุมูลอิสระ กระตุ้นการสร้างคอลลาเจน',
+        detail: 'บรรจุ 90 เม็ด (รับประทานวันละ 1 เม็ดหลังอาหารเช้า)'
+      },
+      { 
+        name: 'ชุดยาสามัญประจำบ้านบรรเทาไข้หวัด', 
+        price: '350 บาท', 
+        tag: 'ยาสามัญประจำบ้าน', 
+        properties: 'บรรเทาอาการไข้ ลดปวดตัว คัดแน่นจมูก และชดเชยน้ำเกลือแร่',
+        detail: 'ประกอบด้วย พาราเซตามอล 500mg, ยาแก้ไอ, เกลือแร่ ORS'
+      },
+      { 
+        name: 'โปรไบโอติกส์ Probiotics Complex 10B', 
+        price: '990 บาท', 
+        tag: 'AI แนะนำ', 
+        properties: 'ปรับสมดุลจุลินทรีย์ในลำไส้ ช่วยการย่อยและขับถ่าย บรรเทาอาการท้องอืด',
+        detail: 'บรรจุ 30 แคปซูล (รับประทานก่อนนอนวันละ 1 แคปซูล)'
+      }
+    ];
+
+    // --- Main App Root ---
+    function App() {
+      const [theme, setTheme] = useState('dark');
+      // Ordered strictly: หน้าหลัก (dashboard), คอมมูนิตี้กีฬา (community), สแกน 3D (fitness), สแกนอาหาร (nutrition), ตารางยา (meds), ประเมินอาการ (telemedicine)
+      const [activeTab, setActiveTab] = useState('dashboard');
+      const [currentRegion, setCurrentRegion] = useState('bkk');
+
+      useEffect(() => {
+        const rootHtml = document.documentElement;
+        if (theme === 'dark') {
+          rootHtml.classList.add('dark');
+          document.body.className = "bg-gradient-to-br from-[#1E1B4B] via-[#0F172A] to-[#1E1B4B] text-slate-100 antialiased selection:bg-lime-400 selection:text-slate-950 transition-colors duration-300 min-h-screen overflow-x-hidden max-w-full";
+        } else {
+          rootHtml.classList.remove('dark');
+          document.body.className = "bg-gradient-to-br from-[#E2E8F0] via-[#F1F5F9] to-[#E2E8F0] text-slate-900 antialiased selection:bg-indigo-900 selection:text-white transition-colors duration-300 min-h-screen overflow-x-hidden max-w-full";
+        }
+      }, [theme]);
+
+      const [userStats, setUserStats] = useState({
+        steps: 8420,
+        stepsGoal: 10000,
+        water: 1850,
+        waterGoal: 2500,
+        calories: 1420,
+        caloriesGoal: 2100,
+        protein: 85,
+        carbs: 160,
+        fat: 45,
+        lastBodyFat: 19.4,
+        muscleMass: 42.1
+      });
+
+      const [timeline, setTimeline] = useState([
+        { id: 1, time: '08:00 น.', title: 'ทานยาเช้า (Metformin 500mg)', type: 'med', completed: true, tag: 'สุขภาพ' },
+        { id: 2, time: '08:30 น.', title: 'บันทึกอาหารเช้า (ขนมปังอะโวคาโด & ไข่ต้ม)', type: 'food', completed: true, tag: '420 kcal' },
+        { id: 3, time: '12:30 น.', title: 'บันทึกอาหารเที่ยง (สลัดแซลมอนคินัว)', type: 'food', completed: true, tag: '580 kcal' },
+        { id: 4, time: '14:00 น.', title: 'จิบน้ำเพิ่มความสดชื่น (+500ml)', type: 'water', completed: true, tag: 'ดื่มน้ำ' },
+        { id: 5, time: '18:00 น.', title: 'คอมมูนิตี้วิ่งคุมโซนหัวใจ (สวนเบญจกิติ)', type: 'workout', completed: false, tag: '60 นาที' },
+        { id: 6, time: '20:00 น.', title: 'ทานวิตามิน D3 & โอเมก้า 3', type: 'med', completed: false, tag: 'วิตามิน' }
+      ]);
+
+      const [toast, setToast] = useState(null);
+      const showToast = (message, type = 'success') => {
+        setToast({ message, type });
+        setTimeout(() => setToast(null), 3400);
+      };
+
+      const handleAddWater = (amount = 250) => {
+        setUserStats(prev => ({ ...prev, water: Math.min(prev.waterGoal, prev.water + amount) }));
+        showToast(`บันทึกการดื่มน้ำ: +${amount} มล. 💧`);
+      };
+
+      const toggleTimeline = (id) => {
+        setTimeline(prev => prev.map(item => item.id === id ? { ...item, completed: !item.completed } : item));
+        showToast('อัปเดตสถานะกิจกรรมเรียบร้อยแล้ว');
+      };
+
+      const isDark = theme === 'dark';
+
+      return (
+        <div className="min-h-screen flex flex-col justify-between max-w-7xl mx-auto px-3 sm:px-6 relative overflow-x-hidden w-full">
+          
+          {/* Toast Notification */}
+          {toast && (
+            <div className="fixed top-24 right-4 z-[9999] flex items-center gap-2.5 px-4 py-2.5 rounded-2xl shadow-2xl backdrop-blur-xl border border-white/20 bg-slate-900/95 text-white animate-fadeIn max-w-[90vw]">
+              <span className="w-2.5 h-2.5 rounded-full bg-lime-400 animate-ping"></span>
+              <span className="text-xs font-semibold tracking-wide truncate">{toast.message}</span>
+            </div>
+          )}
+
+          {/* Frozen Top Header Bar on Main Page (Dashboard) strictly matching the screenshot */}
+          {activeTab === 'dashboard' && (
+            <div className="fixed top-0 left-0 right-0 z-50 w-full frozen-glossy-header px-3 sm:px-6 py-2">
+              <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 min-w-0">
+                
+                {/* Left: Date, Live Digital Clock & Stacked Location Pill */}
+                <div className="flex flex-col gap-1 flex-shrink-0">
+                  <div className="text-xs font-semibold text-slate-300">
+                    {new Date().toLocaleDateString('th-TH', { weekday: 'long' })}, {new Date().toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </div>
+                  <div className="text-base sm:text-lg font-black font-mono tracking-wider text-lime-400 flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-lime-400 shadow-[0_0_8px_rgba(163,230,53,0.9)] animate-pulse"></span>
+                    <span>{new Date().toLocaleTimeString('th-TH', { hour12: false })}</span>
+                  </div>
+                  {/* Location selector pill directly beneath clock */}
+                  <div className="relative inline-flex items-center mt-0.5">
+                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-2xl bg-[#1a2144]/90 border border-white/15 shadow-sm">
+                      <span className="text-rose-400 text-xs">📍</span>
+                      <select 
+                        value={currentRegion}
+                        onChange={(e) => {
+                          setCurrentRegion(e.target.value);
+                          const regionNames = { bkk: 'กรุงเทพฯ', chonburi: 'ชลบุรี', chiangmai: 'เชียงใหม่' };
+                          showToast(`เปลี่ยนพื้นที่เป็น: ${regionNames[e.target.value]} 📍`);
+                        }}
+                        className="text-xs font-bold bg-transparent text-slate-100 appearance-none pr-5 cursor-pointer focus:outline-none"
+                      >
+                        <option value="bkk" className="text-slate-900 bg-white">กทม.</option>
+                        <option value="chonburi" className="text-slate-900 bg-white">ชลบุรี</option>
+                        <option value="chiangmai" className="text-slate-900 bg-white">เชียงใหม่</option>
+                      </select>
+                      <Icon name="mapPin" className="w-3.5 h-3.5 text-lime-400 pointer-events-none -ml-4" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: Unified Glossy Capsule (Avatar + Greeting & Stacked Badges + Theme/Bell Buttons) */}
+                <div className="flex items-center gap-3 px-3.5 sm:px-4 py-2 rounded-3xl frozen-capsule-bg shadow-xl">
+                  {/* Avatar */}
+                  <div className="relative flex-shrink-0">
+                    <img 
+                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=140" 
+                      alt="John" 
+                      className="w-11 h-11 rounded-2xl object-cover ring-2 ring-lime-400 shadow-md"
+                    />
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-lime-400 border-2 border-slate-950"></span>
+                  </div>
+
+                  {/* Greeting & Vertically Stacked Reminder Pills */}
+                  <div className="min-w-0 pr-1">
+                    <div className="text-xs sm:text-sm font-black text-white flex items-center gap-1.5 truncate">
+                      <span>สวัสดีตอนเช้า, คุณ John</span>
+                      <span className="text-sm">👋</span>
+                    </div>
+                    <div className="flex flex-col gap-1 mt-1">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-xl bg-amber-500/15 text-amber-300 border border-amber-500/30 text-[10px] sm:text-[11px] font-semibold">
+                        🏃 เดินอีก {Math.max(0, userStats.stepsGoal - userStats.steps).toLocaleString()} ก้าว
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-xl bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[10px] sm:text-[11px] font-semibold">
+                        💧 จิบน้ำอีก {Math.max(0, userStats.waterGoal - userStats.water)} มล.
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Circular Theme Toggle & Bell Buttons integrated inside capsule */}
+                  <div className="flex items-center gap-1.5 pl-2 border-l border-white/10 flex-shrink-0">
+                    <button 
+                      onClick={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
+                      title="สลับโหมดแสง/มืด"
+                      className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-amber-300 border border-white/10 flex items-center justify-center transition-all"
+                    >
+                      {isDark ? <Icon name="sun" className="w-4 h-4 text-lime-300" /> : <Icon name="moon" className="w-4 h-4 text-indigo-500" />}
+                    </button>
+
+                    <button 
+                      onClick={() => showToast('ไม่มีการแจ้งเตือนใหม่ในขณะนี้')}
+                      className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/10 flex items-center justify-center transition-all relative"
+                    >
+                      <Icon name="bell" className="w-4 h-4" />
+                      <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-lime-400 shadow-[0_0_6px_rgba(163,230,53,0.9)]"></span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* Top Bar Header on Other Tabs */}
+          {activeTab !== 'dashboard' && (
+            <div className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-6 py-2.5 sm:py-3 w-full pointer-events-none">
+              <header className={`max-w-7xl mx-auto rounded-3xl px-3.5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between transition-all backdrop-blur-2xl shadow-xl border w-full pointer-events-auto ${
+                isDark ? 'glass-card-dark border-white/10' : 'glass-card-light border-slate-300'
+              }`}>
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                  <div className="relative flex-shrink-0">
+                    <img 
+                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=140" 
+                      alt="John" 
+                      className={`w-10 h-10 rounded-2xl object-cover shadow-md ring-2 ${isDark ? 'ring-lime-400' : 'ring-indigo-700'}`}
+                    />
+                    <span className={`absolute -bottom-1 -right-1 w-3 h-3 border-2 border-slate-900 rounded-full ${isDark ? 'bg-lime-400' : 'bg-emerald-600'}`}></span>
+                  </div>
+                  <div className="min-w-0">
+                    <div className={`text-[11px] font-medium truncate ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Hi, John</div>
+                    <div className="text-xs sm:text-sm font-extrabold tracking-tight flex items-center gap-1.5">
+                      <span className={`truncate ${isDark ? 'text-white' : 'text-slate-950'}`}>Get Ready</span>
+                      <span className={`px-1.5 py-0.2 rounded text-[9px] font-black uppercase ${
+                        isDark ? 'bg-lime-400/20 text-lime-300 border border-lime-400/30' : 'bg-indigo-900 text-white shadow-sm'
+                      }`}>Pro</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Desktop Brand Title */}
+                <div className="hidden md:flex flex-col items-center">
+                  <div className={`text-base font-black tracking-wider ${
+                    isDark 
+                      ? 'bg-gradient-to-r from-blue-400 via-indigo-300 to-lime-300 bg-clip-text text-transparent' 
+                      : 'bg-gradient-to-r from-blue-700 via-indigo-900 to-slate-900 bg-clip-text text-transparent'
+                  }`}>
+                    AURA HEALTH
+                  </div>
+                  <span className={`text-[9px] font-semibold ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Patient Management & Sports Hub</span>
+                </div>
+
+                {/* Actions: Region Selector + Theme Toggle + Bell */}
+                <div className="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
+                  <div className="relative">
+                    <select 
+                      value={currentRegion}
+                      onChange={(e) => {
+                        setCurrentRegion(e.target.value);
+                        const regionNames = { bkk: 'กรุงเทพฯ', chonburi: 'ชลบุรี', chiangmai: 'เชียงใหม่' };
+                        showToast(`เปลี่ยนพื้นที่เป็น: ${regionNames[e.target.value]} 📍`);
+                      }}
+                      className={`text-xs font-semibold py-1.5 px-2.5 sm:px-3 rounded-xl border appearance-none pr-6 cursor-pointer transition-all ${
+                        isDark 
+                          ? 'bg-white/10 text-slate-200 border-white/10 hover:border-lime-400/50' 
+                          : 'bg-white text-slate-800 border-slate-300 hover:border-blue-600'
+                      }`}
+                    >
+                      <option value="bkk">📍 กทม.</option>
+                      <option value="chonburi">📍 ชลบุรี</option>
+                      <option value="chiangmai">📍 เชียงใหม่</option>
+                    </select>
+                    <div className="absolute right-2 top-2.5 pointer-events-none text-slate-400">
+                      <Icon name="mapPin" className="w-3 h-3 text-lime-400" />
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
+                    title={isDark ? 'เปลี่ยนเป็น Light Mode' : 'เปลี่ยนเป็น Dark Mode'}
+                    className={`p-2 rounded-xl border transition-all ${
+                      isDark ? 'bg-white/10 text-amber-300 border-white/10' : 'bg-white text-slate-700 border-slate-200'
+                    }`}
+                  >
+                    {isDark ? <Icon name="sun" className="w-4 h-4 text-lime-300" /> : <Icon name="moon" className="w-4 h-4 text-indigo-600" />}
+                  </button>
+
+                  <button 
+                    onClick={() => showToast('ไม่มีการแจ้งเตือนใหม่ในขณะนี้')}
+                    className={`p-2 rounded-xl border transition-all relative ${
+                      isDark ? 'bg-white/10 text-white border-white/10' : 'bg-white text-slate-700 border-slate-200'
+                    }`}
+                  >
+                    <Icon name="bell" className="w-4 h-4" />
+                    <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-lime-400"></span>
+                  </button>
+                </div>
+              </header>
+            </div>
+          )}
+
+          {/* Main App Content Viewport with dynamic top padding */}
+          <main className={`flex-1 pb-28 sm:pb-32 w-full min-w-0 max-w-full overflow-x-hidden ${
+            activeTab === 'dashboard' ? 'pt-24 sm:pt-28 md:pt-24' : 'pt-20 sm:pt-24'
+          }`}>
+            {activeTab === 'dashboard' && (
+              <DashboardView 
+                theme={theme}
+                currentRegion={currentRegion}
+                setCurrentRegion={setCurrentRegion}
+                toggleTheme={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
+                userStats={userStats} 
+                handleAddWater={handleAddWater} 
+                timeline={timeline}
+                toggleTimeline={toggleTimeline}
+                setActiveTab={setActiveTab}
+                showToast={showToast}
+              />
+            )}
+            {activeTab === 'community' && (
+              <CommunitySportsView 
+                theme={theme}
+                currentRegion={currentRegion}
+                setCurrentRegion={setCurrentRegion}
+                showToast={showToast}
+                setTimeline={setTimeline}
+              />
+            )}
+            {activeTab === 'fitness' && (
+              <FitnessBodyScanView 
+                theme={theme}
+                userStats={userStats} 
+                setUserStats={setUserStats}
+                showToast={showToast}
+                setActiveTab={setActiveTab}
+              />
+            )}
+            {activeTab === 'nutrition' && (
+              <FoodScannerView 
+                theme={theme}
+                userStats={userStats} 
+                setUserStats={setUserStats}
+                setTimeline={setTimeline}
+                showToast={showToast}
+              />
+            )}
+            {activeTab === 'meds' && (
+              <MedicationTrackerView 
+                theme={theme}
+                showToast={showToast}
+              />
+            )}
+            {activeTab === 'telemedicine' && (
+              <TelemedicineView 
+                theme={theme}
+                showToast={showToast}
+              />
+            )}
+          </main>
+
+          {/* Strictly Fixed Bottom Navigator Across All Pages */}
+          <div className="fixed bottom-2.5 sm:bottom-3 left-2 right-2 z-40 max-w-4xl mx-auto pointer-events-none">
+            <nav className={`w-full rounded-3xl p-1.5 transition-all shadow-2xl border backdrop-blur-2xl pointer-events-auto ${
+              isDark ? 'glass-card-dark border-white/20' : 'glass-card-light border-slate-300'
+            }`}>
+              <div className="grid grid-cols-6 gap-0.5 sm:gap-1">
+                <NavItem theme={theme} icon={<Icon name="activity" className="w-4 h-4 sm:w-5 sm:h-5" />} label="หน้าหลัก" active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} />
+                <NavItem theme={theme} icon={<Icon name="users" className="w-4 h-4 sm:w-5 sm:h-5" />} label="คอมมูนิตี้" active={activeTab === 'community'} onClick={() => setActiveTab('community')} />
+                <NavItem theme={theme} icon={<Icon name="barChart2" className="w-4 h-4 sm:w-5 sm:h-5" />} label="สแกน 3D" active={activeTab === 'fitness'} onClick={() => setActiveTab('fitness')} />
+                <NavItem theme={theme} icon={<Icon name="camera" className="w-4 h-4 sm:w-5 sm:h-5" />} label="อาหาร" active={activeTab === 'nutrition'} onClick={() => setActiveTab('nutrition')} />
+                <NavItem theme={theme} icon={<Icon name="pill" className="w-4 h-4 sm:w-5 sm:h-5" />} label="ตารางยา" active={activeTab === 'meds'} onClick={() => setActiveTab('meds')} />
+                <NavItem theme={theme} icon={<Icon name="heart" className="w-4 h-4 sm:w-5 sm:h-5" />} label="ประเมิน" active={activeTab === 'telemedicine'} onClick={() => setActiveTab('telemedicine')} />
+              </div>
+            </nav>
+          </div>
+
+        </div>
+      );
+    }
+
+    // --- Sub Navigation Item ---
+    function NavItem({ theme, icon, label, active, onClick }) {
+      const isDark = theme === 'dark';
+      return (
+        <button 
+          onClick={onClick}
+          className={`flex flex-col items-center py-1.5 px-0.5 rounded-2xl transition-all relative ${
+            active 
+              ? isDark 
+                ? 'bg-lime-400 text-slate-950 font-black shadow-md shadow-lime-400/25 scale-102' 
+                : 'bg-slate-950 text-white font-black shadow-md shadow-slate-950/20 scale-102'
+              : isDark 
+                ? 'text-slate-400 hover:text-white hover:bg-white/5' 
+                : 'text-slate-600 hover:text-slate-950 hover:bg-slate-200/60 font-semibold'
+          }`}
+        >
+          <div className="flex items-center justify-center">
+            {icon}
+          </div>
+          <span className="text-[9px] sm:text-[10px] mt-0.5 tracking-tight truncate w-full text-center">{label}</span>
+          {active && (
+            <span className={`absolute -bottom-0.5 w-1 h-1 rounded-full ${isDark ? 'bg-slate-950' : 'bg-lime-400'}`}></span>
+          )}
+        </button>
+      );
+    }
+
+    // ==========================================
+    // 1. DASHBOARD VIEW (หน้าหลัก)
+    // ==========================================
+    function DashboardView({ theme, currentRegion, setCurrentRegion, toggleTheme, userStats, handleAddWater, timeline, toggleTimeline, setActiveTab, showToast }) {
+      const isDark = theme === 'dark';
+      const [patientRulerVal, setPatientRulerVal] = useState(6);
+      const [currentTime, setCurrentTime] = useState(new Date());
+
+      // Live 1-second ticking clock
+      useEffect(() => {
+        const timer = setInterval(() => {
+          setCurrentTime(new Date());
+        }, 1000);
+        return () => clearInterval(timer);
+      }, []);
+
+      // Realtime weather dataset mapped by location
+      const WEATHER_DATA = {
+        bkk: {
+          city: 'กรุงเทพฯ (Bangkok)',
+          temp: 28,
+          wind: '14 km/h',
+          humidity: '72%',
+          condition: 'Cloudy',
+          subCondition: 'มีเมฆและละอองฝนสดชื่น',
+          iconType: 'rain',
+          forecast: [
+            { time: '10:00', type: 'rain', temp: '28°' },
+            { time: '12:00', type: 'sun', temp: '31°' },
+            { time: '15:00', type: 'thunder', temp: '29°' },
+            { time: '18:00', type: 'moon', temp: '27°' }
+          ]
+        },
+        chonburi: {
+          city: 'ชลบุรี / บางแสน',
+          temp: 30,
+          wind: '22 km/h',
+          humidity: '68%',
+          condition: 'Breeze',
+          subCondition: 'ลมชายทะเล แดดโปร่งสบาย',
+          iconType: 'sun',
+          forecast: [
+            { time: '10:00', type: 'sun', temp: '30°' },
+            { time: '12:00', type: 'sun', temp: '33°' },
+            { time: '15:00', type: 'rain', temp: '31°' },
+            { time: '18:00', type: 'moon', temp: '28°' }
+          ]
+        },
+        chiangmai: {
+          city: 'เชียงใหม่ (นิมมานฯ)',
+          temp: 25,
+          wind: '8 km/h',
+          humidity: '64%',
+          condition: 'Mist',
+          subCondition: 'หมอกยามเช้า อากาศเย็นสบาย',
+          iconType: 'moon',
+          forecast: [
+            { time: '10:00', type: 'moon', temp: '25°' },
+            { time: '12:00', type: 'sun', temp: '28°' },
+            { time: '15:00', type: 'rain', temp: '27°' },
+            { time: '18:00', type: 'moon', temp: '24°' }
+          ]
+        }
+      };
+
+      const currentWeather = WEATHER_DATA[currentRegion] || WEATHER_DATA.bkk;
+
+      // Formatted date and time strings
+      const timeString = currentTime.toLocaleTimeString('th-TH', { hour12: false });
+      const dayName = currentTime.toLocaleDateString('th-TH', { weekday: 'long' });
+      const dateString = currentTime.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
+
+      // Dynamic time-based greeting
+      const currentHour = currentTime.getHours();
+      let greeting = 'สวัสดีตอนเช้า';
+      if (currentHour >= 12 && currentHour < 17) {
+        greeting = 'สวัสดีตอนบ่าย';
+      } else if (currentHour >= 17 && currentHour < 21) {
+        greeting = 'สวัสดีตอนเย็น';
+      } else if (currentHour >= 21 || currentHour < 5) {
+        greeting = 'สวัสดีตอนค่ำ';
+      }
+
+      // Dynamic remaining calculations for reminders
+      const remainingSteps = Math.max(0, userStats.stepsGoal - userStats.steps);
+      const remainingWater = Math.max(0, userStats.waterGoal - userStats.water);
+
+      // 3D Weather Illustration Renderer
+      const renderWeather3DIcon = (type = 'rain', size = 'normal') => {
+        if (type === 'rain' || type === 'cloudy') {
+          return (
+            <div className={`relative ${size === 'small' ? 'w-8 h-8 scale-75' : size === 'compact' ? 'w-16 h-16' : 'w-24 h-24 sm:w-28 sm:h-28'} mx-auto filter drop-shadow-xl select-none`}>
+              <div className={`absolute top-0.5 left-1 ${size === 'compact' ? 'w-8 h-8' : 'w-10 h-10 sm:w-12 sm:h-12'} rounded-full bg-gradient-to-tr from-amber-400 via-yellow-300 to-yellow-100 shadow-[0_0_20px_rgba(251,191,36,0.7)] anim-sun-gaze`}>
+                <div className="absolute inset-0.5 rounded-full border border-yellow-100/60"></div>
+                <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-yellow-200 rounded-full shadow-sm"></span>
+                <span className="absolute -left-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-yellow-200 rounded-full shadow-sm"></span>
+                <span className="absolute -right-0.5 -top-0.5 w-1 h-1 bg-white rounded-full"></span>
+              </div>
+
+              <div className={`absolute ${size === 'compact' ? 'top-2.5 left-1.5 right-1 h-8' : 'top-4 left-3 right-3 sm:left-4 sm:right-4 h-12 sm:h-14'} bg-gradient-to-b from-white via-slate-50 to-slate-200 rounded-full shadow-[0_8px_18px_rgba(15,23,42,0.22)] z-10 flex items-center justify-center border-t border-l border-white anim-cloud-float`}>
+                <div className={`absolute -top-2.5 left-1.5 ${size === 'compact' ? 'w-6 h-6' : 'w-9 h-9 sm:w-11 sm:h-11'} bg-gradient-to-b from-white to-slate-200 rounded-full border-t border-l border-white shadow-sm`}></div>
+                <div className={`absolute -top-3.5 right-2 ${size === 'compact' ? 'w-7 h-7' : 'w-11 h-11 sm:w-13 sm:h-13'} bg-gradient-to-b from-white via-white to-slate-200 rounded-full border-t border-white shadow-inner`}>
+                  <span className="absolute top-1 right-2 w-2 h-1 bg-white/90 rounded-full rotate-[-20deg]"></span>
+                </div>
+              </div>
+
+              <div className="absolute -bottom-1 inset-x-0 z-20 flex justify-center gap-1.5 pt-1">
+                <span className={`${size === 'compact' ? 'w-1.5 h-3.5' : 'w-2 sm:w-2.5 h-5 sm:h-6'} bg-gradient-to-b from-sky-300 via-blue-400 to-blue-600 rounded-full transform -rotate-12 shadow-md animate-bounce`} style={{ animationDuration: '1.1s' }}></span>
+                <span className={`${size === 'compact' ? 'w-2 h-4' : 'w-2 sm:w-2.5 h-6 sm:h-7'} bg-gradient-to-b from-cyan-200 via-sky-400 to-blue-600 rounded-full transform -rotate-12 shadow-lg animate-bounce`} style={{ animationDuration: '0.85s', animationDelay: '0.12s' }}></span>
+                <span className={`${size === 'compact' ? 'w-1.5 h-3.5' : 'w-2 sm:w-2.5 h-5 sm:h-6'} bg-gradient-to-b from-sky-300 via-blue-400 to-blue-600 rounded-full transform -rotate-12 shadow-md animate-bounce`} style={{ animationDuration: '1.05s', animationDelay: '0.28s' }}></span>
+              </div>
+            </div>
+          );
+        }
+        if (type === 'sun') {
+          return (
+            <div className={`relative ${size === 'small' ? 'w-8 h-8 scale-75' : size === 'compact' ? 'w-14 h-14 flex items-center justify-center' : 'w-20 h-20'} mx-auto filter drop-shadow-lg`}>
+              <div className={`${size === 'compact' ? 'w-10 h-10' : 'w-14 h-14'} mx-auto rounded-full bg-gradient-to-tr from-amber-500 via-yellow-400 to-yellow-100 shadow-[0_0_18px_rgba(251,191,36,0.7)] animate-pulse`}></div>
+            </div>
+          );
+        }
+        if (type === 'thunder') {
+          return (
+            <div className={`relative ${size === 'small' ? 'w-8 h-8 scale-75' : size === 'compact' ? 'w-14 h-14 flex items-center justify-center' : 'w-20 h-20'} mx-auto filter drop-shadow-lg`}>
+              <div className={`${size === 'compact' ? 'w-10 h-6' : 'w-14 h-10'} bg-slate-300 rounded-full mx-auto relative z-10 shadow-md`}>
+                <Icon name="zap" className="w-5 h-5 text-yellow-400 absolute -bottom-2 left-1/2 -translate-x-1/2 drop-shadow" />
+              </div>
+            </div>
+          );
+        }
+        return (
+          <div className={`relative ${size === 'small' ? 'w-8 h-8 scale-75' : size === 'compact' ? 'w-14 h-14 flex items-center justify-center' : 'w-20 h-20'} mx-auto filter drop-shadow-lg`}>
+            <div className={`${size === 'compact' ? 'w-9 h-9' : 'w-12 h-12'} bg-gradient-to-br from-indigo-200 via-indigo-400 to-slate-700 rounded-full mx-auto flex items-center justify-center text-white`}>
+              <Icon name="moon" className="w-5 h-5 text-amber-200" />
+            </div>
+          </div>
+        );
+      };
+
+      const handleImageFallback = (e, fallbackType) => {
+        e.target.onerror = null;
+        const fallbacks = {
+          steps: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=400',
+          counseling: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=400',
+          lab: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=400',
+          water: 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&q=80&w=400'
+        };
+        e.target.src = fallbacks[fallbackType] || 'https://placehold.co/400x400/1e293b/a3e635?text=Aura+Health';
+      };
+
+      return (
+        <div className="space-y-4 sm:space-y-5 animate-fadeIn w-full">
+          {/* Full-Width Daily Energy & Vitality Score Card */}
+          <div className="w-full bg-[#13172E]/90 rounded-3xl p-4 sm:p-5 border border-white/10 space-y-3 shadow-2xl backdrop-blur-2xl">
+            <div className="flex items-center justify-between text-xs sm:text-sm font-semibold flex-wrap gap-2">
+              <div className="flex items-center gap-2 text-white">
+                <span className="w-7 h-7 rounded-xl bg-lime-400/20 text-lime-300 border border-lime-400/30 flex items-center justify-center">
+                  <Icon name="zap" className="w-4 h-4 text-lime-400" />
+                </span>
+                <span className="font-extrabold tracking-tight">ระดับพลังงานร่างกายวันนี้ (Daily Energy & Vitality Score)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-lime-300 bg-lime-400/15 px-3 py-1 rounded-full border border-lime-400/30">
+                  84% พร้อมลุยกิจกรรม
+                </span>
+                <span className="text-xs text-slate-300 hidden sm:inline">• ฟื้นตัวสมบูรณ์</span>
+              </div>
+            </div>
+
+            {/* Glowing Energy Progress Bar Track */}
+            <div className="w-full bg-slate-900/90 rounded-full h-3 sm:h-3.5 p-0.5 border border-white/15 relative overflow-hidden shadow-inner">
+              <div 
+                className="h-full rounded-full bg-gradient-to-r from-lime-400 via-emerald-400 to-cyan-400 shadow-[0_0_14px_rgba(163,230,53,0.8)] transition-all duration-700 relative overflow-hidden" 
+                style={{ width: '84%' }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-pulse"></div>
+              </div>
+            </div>
+
+            {/* 3 Equal Stat Pills */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
+              <div className="flex items-center justify-between sm:justify-start sm:gap-2 px-3 py-2 rounded-2xl bg-white/5 border border-white/10">
+                <span className="text-slate-400">🔥 เผาผลาญ:</span>
+                <span className="font-bold text-white">{userStats.calories.toLocaleString()} / {userStats.caloriesGoal.toLocaleString()} kcal</span>
+              </div>
+              <div className="flex items-center justify-between sm:justify-start sm:gap-2 px-3 py-2 rounded-2xl bg-white/5 border border-white/10">
+                <span className="text-slate-400">💤 ฟื้นตัว (Recovery):</span>
+                <span className="font-bold text-emerald-300">88% ยอดเยี่ยม</span>
+              </div>
+              <div className="flex items-center justify-between sm:justify-start sm:gap-2 px-3 py-2 rounded-2xl bg-white/5 border border-white/10">
+                <span className="text-slate-400">⚡ ความพร้อม (Readiness):</span>
+                <span className="font-bold text-lime-300">ระดับสูง (พร้อมซ้อม)</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Compact Weather Card with Animated Raindrop Overlay & Weather Stats */}
+          <div className="relative rounded-3xl p-4 sm:p-5 backdrop-blur-2xl bg-white/5 border border-white/15 shadow-xl overflow-hidden text-slate-100">
+            {/* Lively Animated Raindrops Background Overlay (When Cloudy or Rainy) */}
+            {(currentWeather.condition === 'Cloudy' || currentWeather.iconType === 'rain') && (
+              <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-80">
+                <span className="raindrop-streak" style={{ left: '10%', height: '22px', animationDuration: '1.2s', animationDelay: '0s' }}></span>
+                <span className="raindrop-streak" style={{ left: '22%', height: '18px', animationDuration: '1.6s', animationDelay: '0.4s' }}></span>
+                <span className="raindrop-streak" style={{ left: '38%', height: '26px', animationDuration: '1.1s', animationDelay: '0.2s' }}></span>
+                <span className="raindrop-streak" style={{ left: '52%', height: '20px', animationDuration: '1.4s', animationDelay: '0.7s' }}></span>
+                <span className="raindrop-streak" style={{ left: '68%', height: '24px', animationDuration: '1.3s', animationDelay: '0.1s' }}></span>
+                <span className="raindrop-streak" style={{ left: '82%', height: '19px', animationDuration: '1.5s', animationDelay: '0.5s' }}></span>
+                <span className="raindrop-streak" style={{ left: '94%', height: '25px', animationDuration: '1.25s', animationDelay: '0.35s' }}></span>
+
+                <span className="absolute bottom-1.5 left-[20%] w-5 h-1.5 rounded-full border border-sky-300/60" style={{ animation: 'rainRipple 1.8s ease-out infinite', animationDelay: '0.4s' }}></span>
+                <span className="absolute bottom-2.5 left-[50%] w-6 h-1.5 rounded-full border border-sky-300/60" style={{ animation: 'rainRipple 1.8s ease-out infinite', animationDelay: '0.9s' }}></span>
+                <span className="absolute bottom-1 left-[78%] w-5 h-1.5 rounded-full border border-sky-300/60" style={{ animation: 'rainRipple 1.8s ease-out infinite', animationDelay: '0.2s' }}></span>
+              </div>
+            )}
+
+            <div className="relative z-10 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3">
+              {/* 3D Icon & Condition */}
+              <div className="flex items-center gap-2.5 flex-shrink-0">
+                <div className="flex-shrink-0 scale-95 sm:scale-105">
+                  {renderWeather3DIcon(currentWeather.iconType, 'compact')}
+                </div>
+                <div>
+                  <div className="text-lg sm:text-xl font-black tracking-tight text-white leading-tight drop-shadow flex items-center gap-1.5">
+                    <span>{currentWeather.condition}</span>
+                    <span className="text-[10px] bg-sky-400/30 text-sky-100 font-bold px-2 py-0.5 rounded-full border border-sky-300/30">Live</span>
+                  </div>
+                  <div className="text-xs text-sky-100 font-medium truncate max-w-[140px] mt-0.5">
+                    {currentWeather.subCondition}
+                  </div>
+                </div>
+              </div>
+
+              {/* Same-Line Metric Badges with Icons */}
+              <div className="flex items-center gap-2.5 flex-1 justify-center sm:justify-start">
+                <div className="flex items-center gap-2 bg-white/10 hover:bg-white/15 transition-colors rounded-2xl px-3 py-1.5 backdrop-blur-sm border border-white/15">
+                  <Icon name="thermometer" className="w-5 h-5 text-amber-300 flex-shrink-0" />
+                  <div className="leading-tight">
+                    <span className="text-[10px] text-sky-200 block uppercase font-bold tracking-wider">Temp</span>
+                    <span className="text-sm sm:text-base font-black text-white">{currentWeather.temp}°C</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 bg-white/10 hover:bg-white/15 transition-colors rounded-2xl px-3 py-1.5 backdrop-blur-sm border border-white/15">
+                  <Icon name="wind" className="w-5 h-5 text-sky-300 flex-shrink-0" />
+                  <div className="leading-tight">
+                    <span className="text-[10px] text-sky-200 block uppercase font-bold tracking-wider">Wind</span>
+                    <span className="text-sm sm:text-base font-black text-white">{currentWeather.wind}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 bg-white/10 hover:bg-white/15 transition-colors rounded-2xl px-3 py-1.5 backdrop-blur-sm border border-white/15">
+                  <Icon name="droplets" className="w-5 h-5 text-cyan-300 flex-shrink-0" />
+                  <div className="leading-tight">
+                    <span className="text-[10px] text-sky-200 block uppercase font-bold tracking-wider">Humidity</span>
+                    <span className="text-sm sm:text-base font-black text-white">{currentWeather.humidity}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <button 
+                onClick={() => showToast(`สภาพอากาศ ${currentWeather.city}: ${currentWeather.condition} ${currentWeather.temp}°C ความชื้น ${currentWeather.humidity} ⛅`)}
+                className="px-3.5 py-2 bg-slate-950/85 hover:bg-slate-950 text-white text-xs font-bold rounded-full shadow-lg border border-white/20 transition-all flex-shrink-0 hover:scale-105 active:scale-95 flex items-center gap-1 whitespace-nowrap self-center"
+              >
+                <span>See Details</span>
+                <Icon name="chevronRight" className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Quick Metrics Strip with Identical Heights, Proportions, and Structure (Referenced to Steps Card) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 w-full">
+            
+            {/* 1. Steps Metric */}
+            <div className={`p-3 rounded-3xl border transition-all flex items-stretch gap-3 overflow-hidden h-[140px] ${isDark ? 'glass-card-dark' : 'glass-card-light'}`}>
+              <div className="w-[40%] rounded-2xl overflow-hidden relative flex-shrink-0 bg-slate-800 h-full">
+                <img 
+                  src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=400" 
+                  alt="ก้าวเดิน" 
+                  className="w-full h-full object-cover" 
+                  onError={(e) => handleImageFallback(e, 'steps')}
+                />
+                <span className="absolute top-2 left-2 p-1.5 rounded-lg bg-blue-600/85 backdrop-blur-md text-white shadow-md">
+                  <Icon name="activity" className="w-3.5 h-3.5" />
+                </span>
+              </div>
+
+              <div className="w-[60%] flex flex-col justify-between py-1 min-w-0 h-full">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase text-slate-400 truncate">ก้าวเดิน</span>
+                    <span className="text-[10px] font-black text-blue-400 bg-blue-500/10 px-1.5 py-0.2 rounded">
+                      {Math.round((userStats.steps / userStats.stepsGoal) * 100)}%
+                    </span>
+                  </div>
+                  <div className="text-xl sm:text-2xl font-black mt-0.5 truncate">{userStats.steps.toLocaleString()}</div>
+                  <div className="text-[10px] text-slate-400 truncate">เป้าหมาย {userStats.stepsGoal.toLocaleString()} ก้าว</div>
+                </div>
+
+                <div className="w-full bg-slate-200 dark:bg-white/10 rounded-full h-2 overflow-hidden">
+                  <div className="bg-gradient-to-r from-blue-500 to-indigo-500 h-full rounded-full" style={{ width: `${Math.min(100, Math.round((userStats.steps / userStats.stepsGoal) * 100))}%` }}></div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Counseling Metric */}
+            <div className={`p-3 rounded-3xl border transition-all flex items-stretch gap-3 overflow-hidden h-[140px] ${isDark ? 'glass-card-dark' : 'glass-card-light'}`}>
+              <div className="w-[40%] rounded-2xl overflow-hidden relative flex-shrink-0 bg-slate-800 h-full">
+                <img 
+                  src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=400" 
+                  alt="Counseling" 
+                  className="w-full h-full object-cover" 
+                  onError={(e) => handleImageFallback(e, 'counseling')}
+                />
+                <span className="absolute top-2 left-2 p-1.5 rounded-lg bg-amber-500/85 backdrop-blur-md text-slate-950 shadow-md">
+                  <Icon name="stopwatch" className="w-3.5 h-3.5" />
+                </span>
+              </div>
+
+              <div className="w-[60%] flex flex-col justify-between py-1 min-w-0 h-full">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase text-slate-400 truncate">COUNSELING</span>
+                    <span className="text-[10px] font-black text-amber-400 bg-amber-500/10 px-1.5 py-0.2 rounded">
+                      Active
+                    </span>
+                  </div>
+                  <div className="text-xl sm:text-2xl font-black mt-0.5 truncate">1:45 <span className="text-xs font-normal">ชม.</span></div>
+                  <div className="text-[10px] text-emerald-400 font-semibold truncate flex items-center gap-1 mt-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+                    <span className="truncate">ตรงตามตารางนัดหมาย</span>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={() => {
+                    setActiveTab('telemedicine');
+                    showToast('เปิดหน้าต่างให้คำปรึกษาแพทย์');
+                  }}
+                  className={`w-full py-1 text-[11px] font-bold rounded-xl transition-all ${
+                    isDark ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-900'
+                  }`}
+                >
+                  ดูรายละเอียด
+                </button>
+              </div>
+            </div>
+
+            {/* 3. Lab Tests Metric */}
+            <div className={`p-3 rounded-3xl border transition-all flex items-stretch gap-3 overflow-hidden h-[140px] ${isDark ? 'glass-card-dark' : 'glass-card-light'}`}>
+              <div className="w-[40%] rounded-2xl overflow-hidden relative flex-shrink-0 bg-slate-800 h-full">
+                <img 
+                  src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=400" 
+                  alt="Lab Tests" 
+                  className="w-full h-full object-cover" 
+                  onError={(e) => handleImageFallback(e, 'lab')}
+                />
+                <span className="absolute top-2 left-2 p-1.5 rounded-lg bg-lime-400/85 backdrop-blur-md text-slate-950 shadow-md">
+                  <Icon name="testTube" className="w-3.5 h-3.5" />
+                </span>
+              </div>
+
+              <div className="w-[60%] flex flex-col justify-between py-1 min-w-0 h-full">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase text-slate-400 truncate">LAB TESTS</span>
+                    <span className="text-[10px] font-black text-lime-400 bg-lime-400/10 px-1.5 py-0.2 rounded">
+                      14/25
+                    </span>
+                  </div>
+                  <div className="text-xl sm:text-2xl font-black text-lime-400 mt-0.5 truncate">14/25</div>
+                  <div className="text-[10px] text-slate-400 mt-0.5 truncate">HbA1c 5.4% ปกติ</div>
+                </div>
+
+                <button 
+                  onClick={() => showToast('ผลตรวจ Lab ปกติ: ระดับน้ำตาลสะสม HbA1c 5.4% (ปกติ)')}
+                  className={`w-full py-1 text-[11px] font-bold rounded-xl transition-all ${
+                    isDark ? 'bg-lime-400/20 hover:bg-lime-400/30 text-lime-300' : 'bg-slate-900 text-white hover:bg-slate-800'
+                  }`}
+                >
+                  เปิดไฟล์แล็บ
+                </button>
+              </div>
+            </div>
+
+            {/* 4. Drinking Water Metric */}
+            <div className={`p-3 rounded-3xl border transition-all flex items-stretch gap-3 overflow-hidden h-[140px] ${isDark ? 'glass-card-dark' : 'glass-card-light'}`}>
+              <div className="w-[40%] rounded-2xl overflow-hidden relative flex-shrink-0 bg-slate-800 h-full">
+                <img 
+                  src="https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&q=80&w=400" 
+                  alt="การดื่มน้ำ" 
+                  className="w-full h-full object-cover" 
+                  onError={(e) => handleImageFallback(e, 'water')}
+                />
+                <span className="absolute top-2 left-2 p-1.5 rounded-lg bg-cyan-400/85 backdrop-blur-md text-slate-950 shadow-md">
+                  <Icon name="droplets" className="w-3.5 h-3.5" />
+                </span>
+              </div>
+
+              <div className="w-[60%] flex flex-col justify-between py-1 min-w-0 h-full">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase text-slate-400 truncate">การดื่มน้ำ</span>
+                    <span className="text-[10px] font-black text-cyan-400 bg-cyan-400/10 px-1.5 py-0.2 rounded">
+                      {Math.round((userStats.water / userStats.waterGoal) * 100)}%
+                    </span>
+                  </div>
+                  <div className="text-xl sm:text-2xl font-black mt-0.5 truncate">
+                    {userStats.water} <span className="text-[10px] font-normal text-slate-400">/ {userStats.waterGoal}</span>
+                  </div>
+                  <div className="text-[10px] text-cyan-400 mt-0.5 truncate">เป้าหมายประจำวัน</div>
+                </div>
+
+                <button 
+                  onClick={() => handleAddWater(250)}
+                  className="w-full py-1 text-[11px] font-bold rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 flex items-center justify-center gap-1 transition-all"
+                >
+                  <Icon name="plus" className="w-3 h-3" /> +250 มล.
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Patient Card & Readiness Ruler */}
+          <div className={`p-5 rounded-3xl shadow-xl border space-y-3.5 ${
+            isDark ? 'bg-slate-900/90 text-white border-slate-700' : 'bg-white text-slate-900 border-slate-300'
+          }`}>
+            <div className="flex items-center justify-between">
+              <span className={`text-xs font-mono font-bold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Patient ID: 5523478</span>
+              <button 
+                onClick={() => {
+                  setActiveTab('telemedicine');
+                  showToast('เปิดการนัดหมายแพทย์กับ Dr Smith');
+                }}
+                className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                  isDark ? 'bg-white text-slate-900 hover:bg-lime-400' : 'bg-slate-900 text-white hover:bg-slate-800'
+                }`}
+              >
+                <Icon name="arrowUpRight" className="w-3.5 h-3.5 stroke-[2.5]" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 text-xs border-b border-slate-200/50 dark:border-slate-700/50 pb-3">
+              <div>
+                <div className="text-[10px] text-slate-400 font-semibold">Date & Time</div>
+                <div className="font-bold mt-0.5">5:30 pm, 25 Apr</div>
+              </div>
+              <div>
+                <div className="text-[10px] text-slate-400 font-semibold">Doctor</div>
+                <div className="font-bold mt-0.5">Dr Smith</div>
+              </div>
+              <div>
+                <div className="text-[10px] text-slate-400 font-semibold">Medical card</div>
+                <div className="font-bold mt-0.5">No Card</div>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between text-[10px] px-1 font-mono">
+                {[2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                  <button 
+                    key={n} 
+                    onClick={() => {
+                      setPatientRulerVal(n);
+                      showToast(`ปรับความพร้อมของร่างกาย: ${n}/10`);
+                    }}
+                    className={`p-1 rounded font-bold transition-all ${
+                      patientRulerVal === n 
+                        ? isDark ? 'text-lime-300 font-black scale-125' : 'text-slate-950 font-black scale-125 bg-slate-200' 
+                        : isDark ? 'text-slate-400' : 'text-slate-500'
+                    }`}
+                  >
+                    {n}
+                  </button>
+                ))}
+              </div>
+              <input 
+                type="range" 
+                min="2" 
+                max="10" 
+                value={patientRulerVal} 
+                onChange={(e) => setPatientRulerVal(Number(e.target.value))}
+                className="w-full accent-slate-900 dark:accent-lime-400 cursor-pointer h-2 bg-slate-200 dark:bg-slate-700 rounded-lg mt-1"
+              />
+            </div>
+          </div>
+
+          {/* Smart Timeline Section */}
+          <div className={`p-5 rounded-3xl border ${isDark ? 'glass-card-dark' : 'glass-card-light'}`}>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-sm sm:text-base font-bold">ตารางเวลากิจกรรมประจำวัน (Smart Timeline)</h3>
+                <p className="text-[11px] text-slate-400">กิจกรรมและการทานยาเพื่อรักษาสมดุลระดับน้ำตาล</p>
+              </div>
+              <button 
+                onClick={() => {
+                  setActiveTab('community');
+                  showToast('เปิดหน้าจองกิจกรรมคอมมูนิตี้กีฬา');
+                }}
+                className="text-xs font-black text-lime-400 hover:underline flex items-center gap-1"
+              >
+                + เพิ่มกิจกรรมกีฬา
+              </button>
+            </div>
+
+            <div className="space-y-2.5">
+              {timeline.map((item) => (
+                <div 
+                  key={item.id}
+                  onClick={() => toggleTimeline(item.id)}
+                  className={`p-3.5 rounded-2xl border cursor-pointer transition-all flex items-center justify-between gap-3 ${
+                    item.completed 
+                      ? 'opacity-60 bg-black/10 border-transparent' 
+                      : isDark ? 'bg-white/5 border-white/10 hover:border-lime-400/40' : 'bg-white border-slate-200 shadow-sm'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0 ${
+                      item.completed ? 'bg-lime-400 text-slate-950 font-black' : 'border border-slate-500 text-transparent'
+                    }`}>
+                      <Icon name="check" className="w-3.5 h-3.5" />
+                    </span>
+                    <div className="min-w-0">
+                      <div className={`text-xs sm:text-sm font-bold truncate ${item.completed ? 'line-through text-slate-500' : ''}`}>{item.title}</div>
+                      <div className="text-[10px] text-slate-400">{item.time}</div>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-black/30 text-slate-300 flex-shrink-0">
+                    {item.tag}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // 2. COMMUNITY SPORTS VIEW (OVERFLOW FIXED)
+    // ==========================================
+    function CommunitySportsView({ theme, currentRegion, setCurrentRegion, showToast, setTimeline }) {
+      const isDark = theme === 'dark';
+      const [selectedSport, setSelectedSport] = useState('badminton');
+      const [selectedVenue, setSelectedVenue] = useState(null);
+      const [bookingOption, setBookingOption] = useState('community_only');
+      const [selectedTrainer, setSelectedTrainer] = useState(null);
+      const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+      const [badmintonMode, setBadmintonMode] = useState('double');
+
+      const venues = STATIC_VENUES;
+      const thaiTrainers = STATIC_TRAINERS;
+      const hourlySlots = STATIC_HOURLY_SLOTS;
+
+      const handleSelectVenue = (v) => {
+        setSelectedVenue(v);
+      };
+
+      const calculatePrice = () => {
+        if (!selectedVenue) return { venueShare: 0, trainerFee: 0, total: 0 };
+        let venueShare = 0;
+        if (selectedVenue.type === 'private') {
+          const players = selectedSport === 'badminton' ? (badmintonMode === 'double' ? 4 : 2) : 6;
+          venueShare = Math.round((selectedVenue.baseCost / players) * 1.6);
+        }
+        const trainerFee = (bookingOption === 'with_trainer' && selectedTrainer) ? selectedTrainer.rate : 0;
+        return { venueShare, trainerFee, total: venueShare + trainerFee };
+      };
+
+      const prices = calculatePrice();
+
+      const handleConfirmBooking = () => {
+        if (!selectedVenue || !selectedTimeSlot) {
+          showToast('กรุณาเลือกสถานที่และช่วงเวลาที่ต้องการจอง', 'warning');
+          return;
+        }
+        if (bookingOption === 'with_trainer' && !selectedTrainer) {
+          showToast('กรุณาเลือกโค้ชผู้ฝึกสอน', 'warning');
+          return;
+        }
+
+        const bookingTitle = `${selectedSport === 'badminton' ? '🏸 แบดมินตัน' : '🏃 วิ่ง'} @ ${selectedVenue.name} (${selectedTimeSlot})`;
+        setTimeline(prev => [
+          ...prev,
+          {
+            id: Date.now(),
+            time: selectedTimeSlot.split(' - ')[0] + ' น.',
+            title: bookingTitle,
+            type: 'workout',
+            completed: false,
+            tag: `฿${prices.total}`
+          }
+        ]);
+
+        showToast(`จองคลาสสำเร็จ! ยอดชำระ ฿${prices.total} (เพิ่มลงไทม์ไลน์แล้ว)`);
+        setSelectedVenue(null);
+        setSelectedTimeSlot(null);
+        setSelectedTrainer(null);
+      };
+
+      const currentVenues = (venues[selectedSport] && venues[selectedSport][currentRegion]) || [];
+
+      return (
+        <div className="space-y-5 animate-fadeIn w-full">
+          {/* Header */}
+          <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-800 to-slate-900 border border-white/20 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xl">
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-wider bg-lime-400 text-slate-950 px-2.5 py-0.5 rounded-full">
+                Sports Community Hub
+              </span>
+              <h2 className="text-xl sm:text-2xl font-black mt-2">ศูนย์รวมคอมมูนิตี้กีฬา & จองคลาสพร้อมโค้ช</h2>
+              <p className="text-xs text-slate-200 mt-1 max-w-xl">
+                เลือกเล่นร่วมกับสมาชิกคอมมูนิตี้ หรือเลือกเรียนแบบมีโค้ชประกบ 1 ชม. คิดค่าบริการตามจริง + ค่าสมาชิก 160% (สวนสาธารณะฟรีค่าสถานที่)
+              </p>
+            </div>
+            <div className="flex gap-2 bg-black/40 p-1 rounded-2xl border border-white/10 flex-shrink-0">
+              <button 
+                onClick={() => setSelectedSport('badminton')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  selectedSport === 'badminton' ? 'bg-lime-400 text-slate-950 shadow-md' : 'text-slate-300'
+                }`}
+              >
+                <Icon name="badminton" className="w-4 h-4" /> แบดมินตัน
+              </button>
+              <button 
+                onClick={() => setSelectedSport('running')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  selectedSport === 'running' ? 'bg-lime-400 text-slate-950 shadow-md' : 'text-slate-300'
+                }`}
+              >
+                <Icon name="running" className="w-4 h-4" /> วิ่งสุขภาพ
+              </button>
+            </div>
+          </div>
+
+          {/* Region Switcher Pills */}
+          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar w-full">
+            {[
+              { id: 'bkk', name: '📍 กรุงเทพฯ และปริมณฑล (10+ แห่ง)' },
+              { id: 'chonburi', name: '📍 ชลบุรี / บางแสน / พัทยา (10+ แห่ง)' },
+              { id: 'chiangmai', name: '📍 เชียงใหม่ / มช. (10+ แห่ง)' }
+            ].map(p => (
+              <button
+                key={p.id}
+                onClick={() => { setCurrentRegion(p.id); setSelectedVenue(null); }}
+                className={`px-3.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all border ${
+                  currentRegion === p.id 
+                    ? 'bg-lime-400 text-slate-950 border-lime-400 shadow-md' 
+                    : isDark ? 'bg-slate-900 border-white/10 text-slate-400 hover:text-white' : 'bg-white border-slate-200 text-slate-600'
+                }`}
+              >
+                {p.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Venues Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 w-full">
+            {currentVenues.map((v) => {
+              const div = selectedSport === 'badminton' ? (badmintonMode === 'double' ? 4 : 2) : 6;
+              const calculatedFee = v.type === 'private' ? Math.round((v.baseCost / div) * 1.6) : 0;
+
+              return (
+                <div
+                  key={v.id}
+                  onClick={() => handleSelectVenue(v)}
+                  className={`rounded-2xl border cursor-pointer transition-all overflow-hidden flex flex-col justify-between group ${
+                    isDark ? 'glass-card-dark hover:border-lime-400/50' : 'glass-card-light hover:border-slate-400'
+                  }`}
+                >
+                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-900">
+                    <img src={v.image} alt={v.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90" />
+                    <span className={`absolute top-2.5 left-2.5 text-[10px] font-black uppercase px-2 py-0.5 rounded-md backdrop-blur-md text-white ${
+                      v.type === 'public' ? 'bg-emerald-600/80' : 'bg-blue-600/80'
+                    }`}>
+                      {v.type === 'public' ? 'สวนสาธารณะ (ฟรี)' : 'สนามเอกชน'}
+                    </span>
+                    <span className="absolute bottom-2.5 right-2.5 text-xs font-black px-2 py-0.5 rounded-md bg-slate-950/80 text-lime-300">
+                      {v.type === 'public' ? '฿0 ฟรี' : `฿${calculatedFee}/คน/ชม.`}
+                    </span>
+                  </div>
+
+                  <div className="p-3.5">
+                    <h4 className="text-sm font-bold truncate">{v.name}</h4>
+                    <div className="text-[11px] text-slate-400 mt-1 flex justify-between">
+                      <span>⏱️ {v.open}</span>
+                      <span className="truncate max-w-[50%]">📍 {v.loc}</span>
+                    </div>
+                    <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-xs">
+                      <span className="flex items-center gap-1 text-slate-400">
+                        <Icon name="users" className="w-3.5 h-3.5 text-lime-400" /> สมาชิก 6-12 คน
+                      </span>
+                      <span className="font-bold flex items-center gap-0.5 text-lime-400">
+                        จองคลาส <Icon name="chevronRight" className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* FIXED POPUP: Uses fixed inset-0 w-full h-full overflow-hidden (Eliminates page overflow) */}
+          {selectedVenue && (
+            <div className={`fixed inset-0 z-50 flex flex-col w-full h-full overflow-hidden transition-all duration-200 animate-fadeIn ${
+              isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'
+            }`}>
+              
+              {/* Header Bar */}
+              <div className={`flex-shrink-0 px-4 sm:px-6 py-3 border-b flex items-center justify-between shadow-md ${
+                isDark ? 'bg-slate-950/95 border-slate-800' : 'bg-white/95 border-slate-200'
+              }`}>
+                <button 
+                  onClick={() => setSelectedVenue(null)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 transition-all"
+                >
+                  <Icon name="chevronLeft" className="w-4 h-4 stroke-[3]" />
+                  <span>ย้อนกลับ</span>
+                </button>
+
+                <div className="text-center min-w-0">
+                  <span className="text-[10px] font-black uppercase text-lime-400 bg-lime-400/10 px-2 py-0.5 rounded-full">
+                    จองคลาสคอมมูนิตี้
+                  </span>
+                  <div className="text-xs sm:text-sm font-black truncate max-w-[180px] sm:max-w-xs">{selectedVenue.name}</div>
+                </div>
+
+                <button 
+                  onClick={() => setSelectedVenue(null)} 
+                  className="p-1.5 rounded-xl hover:bg-white/10 text-slate-400 hover:text-white"
+                >
+                  <Icon name="x" className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Scrollable Body */}
+              <div className="flex-1 overflow-y-auto max-w-4xl w-full mx-auto p-4 sm:p-6 space-y-5 min-w-0">
+                <div className="relative rounded-2xl overflow-hidden aspect-[21/9] bg-slate-900 border border-white/10 shadow-lg">
+                  <img src={selectedVenue.image} alt={selectedVenue.name} className="w-full h-full object-cover opacity-85" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex items-end p-4">
+                    <div>
+                      <h3 className="text-lg sm:text-xl font-black text-white">{selectedVenue.name}</h3>
+                      <p className="text-xs text-slate-300">📍 {selectedVenue.loc} • ⏱️ {selectedVenue.open}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Option 1 vs 2 */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                  <div 
+                    onClick={() => setBookingOption('community_only')}
+                    className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                      bookingOption === 'community_only' ? 'border-lime-400 bg-lime-400/10 shadow-md' : isDark ? 'border-slate-800 bg-slate-900/60' : 'border-slate-200 bg-white'
+                    }`}
+                  >
+                    <div className="flex justify-between font-bold text-xs sm:text-sm">
+                      <span>เข้าร่วมกลุ่มคอมมูนิตี้</span>
+                      <span className="text-lime-400 font-black">฿{prices.venueShare}</span>
+                    </div>
+                    <p className="text-xs text-slate-400 mt-1">เล่นและซ้อมร่วมกับเพื่อนๆ ในคลับ</p>
+                  </div>
+
+                  <div 
+                    onClick={() => setBookingOption('with_trainer')}
+                    className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                      bookingOption === 'with_trainer' ? 'border-lime-400 bg-lime-400/10 shadow-md' : isDark ? 'border-slate-800 bg-slate-900/60' : 'border-slate-200 bg-white'
+                    }`}
+                  >
+                    <div className="flex justify-between font-bold text-xs sm:text-sm">
+                      <span>กลุ่ม + โค้ชประกบ 1 ชม.</span>
+                      <span className="text-lime-400 font-black">+ ค่าโค้ช</span>
+                    </div>
+                    <p className="text-xs text-slate-400 mt-1">เทรนเนอร์ดูแลปรับสรีระตัวต่อตัว</p>
+                  </div>
+                </div>
+
+                {/* Responsive Trainer Grid */}
+                {bookingOption === 'with_trainer' && (
+                  <div className="space-y-2 w-full min-w-0">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-400">เลือกโค้ชผู้ฝึกสอนชาวไทย (7 ท่าน):</label>
+                    <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2 w-full">
+                      {thaiTrainers.map((t) => (
+                        <div 
+                          key={t.id}
+                          onClick={() => setSelectedTrainer(t)}
+                          className={`p-2 rounded-xl border-2 text-center cursor-pointer transition-all min-w-0 ${
+                            selectedTrainer?.id === t.id ? 'border-lime-400 bg-lime-400/20 shadow-md' : isDark ? 'border-slate-800 bg-slate-900/60' : 'border-slate-200 bg-white'
+                          }`}
+                        >
+                          <img src={t.img} alt={t.name} className="w-12 h-12 rounded-xl object-cover mx-auto" />
+                          <div className="text-xs font-bold mt-1 truncate">{t.name}</div>
+                          <div className="text-[10px] text-slate-400 truncate">{t.exp}</div>
+                          <div className="text-[11px] font-black text-lime-400 mt-0.5">฿{t.rate}/ชม.</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Slots Grid */}
+                <div className="space-y-2 w-full min-w-0">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-400">เลือกรอบเวลา (16:00 - 24:00 น.):</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full">
+                    {hourlySlots.map((slot) => (
+                      <button
+                        key={slot}
+                        onClick={() => setSelectedTimeSlot(slot)}
+                        className={`p-2.5 rounded-xl text-xs font-bold border transition-all truncate ${
+                          selectedTimeSlot === slot ? 'border-lime-400 bg-lime-400 text-slate-950 font-black' : isDark ? 'border-slate-800 bg-slate-900/60' : 'border-slate-200 bg-white'
+                        }`}
+                      >
+                        {slot}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Bar */}
+              <div className={`flex-shrink-0 p-3 sm:p-4 border-t ${
+                isDark ? 'bg-slate-950/95 border-slate-800' : 'bg-white/95 border-slate-200'
+              }`}>
+                <div className="max-w-4xl mx-auto flex items-center justify-between gap-3">
+                  <div>
+                    <div className="text-[10px] text-slate-400">ยอดชำระสุทธิ:</div>
+                    <div className="text-xl font-black text-lime-400">฿{prices.total} <span className="text-[10px] font-normal text-slate-400">/ 1 ชม.</span></div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button onClick={() => setSelectedVenue(null)} className="px-3 py-2 rounded-xl text-xs font-bold bg-white/10">ยกเลิก</button>
+                    <button onClick={handleConfirmBooking} className="px-5 py-2.5 bg-lime-400 hover:bg-lime-500 text-slate-950 font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5">
+                      <Icon name="check" className="w-3.5 h-3.5 stroke-[3]" /> ยืนยันการจอง
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ==========================================
+    // 3. FITNESS & 3D BODY SCAN VIEW
+    // ==========================================
+    function FitnessBodyScanView({ theme, userStats, setUserStats, showToast }) {
+      const isDark = theme === 'dark';
+      const [scanning, setScanning] = useState(false);
+      const [scanProgress, setScanProgress] = useState(0);
+      const [fitnessSubTab, setFitnessSubTab] = useState('courses');
+      const [courseCategory, setCourseCategory] = useState('ทั้งหมด');
+      const [selectedCourse, setSelectedCourse] = useState(null);
+      const [purchasedCourseIds, setPurchasedCourseIds] = useState([1]);
+      const [paymentStep, setPaymentStep] = useState('details');
+
+      const paidCourses = STATIC_PAID_COURSES;
+      const freeWorkouts = STATIC_FREE_WORKOUTS;
+
+      const handleStartScan = () => {
+        setScanning(true);
+        setScanProgress(0);
+        const interval = setInterval(() => {
+          setScanProgress((prev) => {
+            if (prev >= 100) {
+              clearInterval(interval);
+              setScanning(false);
+              setUserStats(s => ({ ...s, lastBodyFat: 18.9, muscleMass: 42.8 }));
+              showToast('สแกนสรีระ AI 3D สำเร็จ! ข้อมูลอัปเดตแล้ว ✨');
+              return 100;
+            }
+            return prev + 25;
+          });
+        }, 400);
+      };
+
+      const handlePurchaseCourse = (courseId) => {
+        if (!purchasedCourseIds.includes(courseId)) {
+          setPurchasedCourseIds(prev => [...prev, courseId]);
+        }
+        setPaymentStep('unlocked');
+        showToast('ชำระเงินสำเร็จ! ปลดล็อกคอร์สเรียนเรียบร้อยแล้ว 🎉');
+      };
+
+      const filteredCourses = paidCourses.filter(c => courseCategory === 'ทั้งหมด' || c.category === courseCategory);
+
+      return (
+        <div className="space-y-5 animate-fadeIn w-full">
+          {/* AI 3D Body Scan Banner */}
+          <div className="p-5 sm:p-7 rounded-3xl bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-950 border border-white/20 text-white relative shadow-xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+              <div className="aspect-[4/3] rounded-2xl bg-slate-900/80 border-2 border-lime-400/40 flex flex-col items-center justify-center p-4">
+                {scanning ? (
+                  <div className="text-center space-y-2">
+                    <div className="w-12 h-12 border-3 border-lime-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                    <div className="text-lime-400 font-mono text-xs">AI กำลังวิเคราะห์สรีระ... {scanProgress}%</div>
+                    <p className="text-[11px] text-slate-400">ประมวลผลชั้นไขมันและมวลกล้ามเนื้อ...</p>
+                  </div>
+                ) : (
+                  <div className="text-center space-y-3">
+                    <div className="w-20 h-28 border-2 border-dashed border-lime-400/60 rounded-xl mx-auto flex items-center justify-center animate-pulse">
+                      <Icon name="activity" className="w-6 h-6 text-lime-400" />
+                    </div>
+                    <button 
+                      onClick={handleStartScan}
+                      className="px-4 py-2 bg-lime-400 text-slate-950 font-black text-xs rounded-xl shadow-lg hover:bg-lime-500 transition-all flex items-center gap-1.5 mx-auto"
+                    >
+                      <Icon name="camera" className="w-4 h-4" /> เริ่มสแกนโครงร่าง 3D AI
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-lime-400 bg-lime-400/10 px-2.5 py-0.5 rounded-full border border-lime-400/20">
+                  AI Computer Vision Biomarkers
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black">ผลวิเคราะห์สรีระและมวลไขมัน 3D</h3>
+                <p className="text-xs text-slate-300">
+                  ระบบจำลองชั้นไขมันใต้ผิวหนัง (Subcutaneous Fat) พร้อมประเมินคะแนนความกระชับ
+                </p>
+
+                <div className="grid grid-cols-2 gap-2.5 pt-1">
+                  <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+                    <div className="text-[11px] text-slate-400">สัดส่วนไขมัน (Body Fat)</div>
+                    <div className="text-xl sm:text-2xl font-black text-lime-400">{userStats.lastBodyFat}%</div>
+                  </div>
+                  <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+                    <div className="text-[11px] text-slate-400">มวลกล้ามเนื้อ (Muscle)</div>
+                    <div className="text-xl sm:text-2xl font-black text-blue-400">{userStats.muscleMass} กก.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Healthy Course Study Sub-Tabs */}
+          <div className="space-y-4">
+            <div className={`p-4 rounded-3xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+              isDark ? 'glass-card-dark' : 'glass-card-light'
+            }`}>
+              <div>
+                <h3 className="text-base font-black flex items-center gap-2">
+                  <Icon name="award" className="w-4 h-4 text-lime-400" />
+                  Healthy Course Study & คอร์สเรียนสุขภาพ
+                </h3>
+                <p className="text-xs text-slate-400">โปรแกรมออกกำลังกายและบทเรียนสุขภาพออกแบบโดยโค้ชมืออาชีพ</p>
+              </div>
+
+              <div className="flex bg-black/30 p-1 rounded-2xl border border-white/10 self-start sm:self-center">
+                <button
+                  onClick={() => setFitnessSubTab('courses')}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                    fitnessSubTab === 'courses' ? 'bg-lime-400 text-slate-950 font-black shadow-md' : 'text-slate-300'
+                  }`}
+                >
+                  คอร์สพรีเมียม ({paidCourses.length})
+                </button>
+                <button
+                  onClick={() => setFitnessSubTab('workouts')}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                    fitnessSubTab === 'workouts' ? 'bg-lime-400 text-slate-950 font-black shadow-md' : 'text-slate-300'
+                  }`}
+                >
+                  ฝึกซ้อมฟรี ({freeWorkouts.length})
+                </button>
+                <button
+                  onClick={() => setFitnessSubTab('progress')}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                    fitnessSubTab === 'progress' ? 'bg-lime-400 text-slate-950 font-black shadow-md' : 'text-slate-300'
+                  }`}
+                >
+                  ใบประกาศ
+                </button>
+              </div>
+            </div>
+
+            {/* Sub-Tab 1: Paid Masterclasses */}
+            {fitnessSubTab === 'courses' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 w-full">
+                {filteredCourses.map((course) => {
+                  const isPurchased = purchasedCourseIds.includes(course.id);
+                  return (
+                    <div 
+                      key={course.id}
+                      className={`rounded-2xl overflow-hidden border flex flex-col justify-between transition-all group ${
+                        isDark ? 'glass-card-dark hover:border-lime-400/50' : 'glass-card-light hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
+                        <img src={course.thumb} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90" />
+                        <span className="absolute top-2.5 left-2.5 bg-lime-400 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-md">
+                          {isPurchased ? 'ซื้อแล้ว' : 'พรีเมียม'}
+                        </span>
+                        <span className="absolute bottom-2.5 right-2.5 bg-slate-950/80 text-white text-[10px] px-2 py-0.5 rounded">
+                          ⏱️ {course.duration}
+                        </span>
+                      </div>
+                      <div className="p-3.5 flex flex-col justify-between flex-1">
+                        <div>
+                          <h4 className="text-sm font-bold line-clamp-2">{course.title}</h4>
+                          <p className="text-[11px] text-slate-400 mt-1">ผู้สอน: {course.instructor}</p>
+                        </div>
+                        <div className="pt-3 mt-3 border-t border-white/10 flex justify-between items-center">
+                          <div className="text-sm font-black text-lime-400">฿{course.price.toLocaleString()}</div>
+                          <button
+                            onClick={() => {
+                              setSelectedCourse(course);
+                              setPaymentStep(isPurchased ? 'unlocked' : 'details');
+                            }}
+                            className="px-3 py-1.5 bg-lime-400 text-slate-950 text-xs font-black rounded-xl hover:bg-lime-500"
+                          >
+                            {isPurchased ? 'เข้าเรียน' : 'ดูบทเรียน'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Sub-Tab 2: Free Workouts */}
+            {fitnessSubTab === 'workouts' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 w-full">
+                {freeWorkouts.map((w) => (
+                  <div key={w.id} className={`p-4 rounded-2xl border ${isDark ? 'glass-card-dark' : 'glass-card-light'}`}>
+                    <div className="aspect-video relative rounded-xl overflow-hidden bg-slate-900 mb-3">
+                      <img src={w.thumb} alt={w.title} className="w-full h-full object-cover opacity-80" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-lime-400 text-slate-950 flex items-center justify-center">
+                          <Icon name="play" className="w-4 h-4 fill-slate-950 ml-0.5" />
+                        </div>
+                      </div>
+                    </div>
+                    <h4 className="text-sm font-bold">{w.title}</h4>
+                    <p className="text-[11px] text-slate-400 mt-0.5">{w.duration} • {w.cal}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Sub-Tab 3: Certificates */}
+            {fitnessSubTab === 'progress' && (
+              <div className={`p-5 rounded-3xl border space-y-3 ${isDark ? 'glass-card-dark' : 'glass-card-light'}`}>
+                <div className="flex justify-between items-center">
+                  <h4 className="text-sm font-bold">เกียรติบัตรสุขภาพของคุณ</h4>
+                  <span className="text-xs text-lime-400 font-bold">สำเร็จ 1/6 คอร์ส</span>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between">
+                  <div>
+                    <div className="text-xs font-bold">Certificate: 4-Week Lower Body Sculpt</div>
+                    <div className="text-[10px] text-slate-400">รหัสรับรอง AURA-88231</div>
+                  </div>
+                  <button 
+                    onClick={() => showToast('ดาวน์โหลดเกียรติบัตร PDF เรียบร้อย 📄')}
+                    className="px-3 py-1.5 bg-lime-400 text-slate-950 font-black text-xs rounded-xl"
+                  >
+                    ดาวน์โหลด PDF
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* COURSE CHECKOUT MODAL (OVERFLOW FIXED) */}
+          {selectedCourse && (
+            <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 w-full h-full overflow-y-auto ${
+              isDark ? 'bg-black/80' : 'bg-slate-900/60'
+            }`}>
+              <div className="bg-slate-900 border border-white/20 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative text-white my-6">
+                <button onClick={() => setSelectedCourse(null)} className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white">
+                  <Icon name="x" className="w-4 h-4" />
+                </button>
+
+                {paymentStep === 'details' && (
+                  <div className="space-y-3">
+                    <h3 className="text-base font-bold">{selectedCourse.title}</h3>
+                    <p className="text-xs text-slate-300">ผู้สอน: {selectedCourse.instructor} • {selectedCourse.duration}</p>
+                    <div className="p-3 bg-lime-400/10 border border-lime-400/30 rounded-2xl flex justify-between items-center">
+                      <div>
+                        <div className="text-xs text-slate-400">ราคาตลอดชีพ</div>
+                        <div className="text-xl font-black text-lime-400">฿{selectedCourse.price.toLocaleString()}</div>
+                      </div>
+                      <button onClick={() => setPaymentStep('checkout')} className="px-4 py-2 bg-lime-400 text-slate-950 font-black text-xs rounded-xl">
+                        ดำเนินการสมัคร
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {paymentStep === 'checkout' && (
+                  <div className="space-y-4 text-center">
+                    <h3 className="text-base font-bold">ชำระเงินผ่าน PromptPay QR Code</h3>
+                    <div className="w-36 h-36 bg-white border-2 border-slate-900 mx-auto rounded-2xl p-2 flex flex-col items-center justify-center text-slate-950 font-mono text-[10px]">
+                      <div className="w-full h-full bg-slate-950 text-lime-400 flex flex-col items-center justify-center rounded-xl p-2 font-bold">
+                        <span>[ PROMPTPAY QR ]</span>
+                        <span className="text-xs mt-1">฿{selectedCourse.price.toLocaleString()}</span>
+                      </div>
+                    </div>
+                    <button onClick={() => handlePurchaseCourse(selectedCourse.id)} className="w-full py-2.5 bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-lg">
+                      ยืนยันการชำระเงินสำเร็จ
+                    </button>
+                  </div>
+                )}
+
+                {paymentStep === 'unlocked' && (
+                  <div className="space-y-3 text-center">
+                    <div className="text-emerald-400 font-bold text-sm">ปลดล็อกคอร์สเรียนเรียบร้อยแล้ว!</div>
+                    <button onClick={() => setSelectedCourse(null)} className="w-full py-2.5 bg-lime-400 text-slate-950 font-black text-xs rounded-xl">
+                      ปิดหน้าต่าง
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ==========================================
+    // 4. AI FOOD SCANNER VIEW (OVERFLOW FIXED)
+    // ==========================================
+    function FoodScannerView({ theme, userStats, setUserStats, setTimeline, showToast }) {
+      const isDark = theme === 'dark';
+      const [analyzing, setAnalyzing] = useState(false);
+      const [analyzedFood, setAnalyzedFood] = useState(null);
+      const [foodFilter, setFoodFilter] = useState('ทั้งหมด');
+
+      const sampleFoods = STATIC_SAMPLE_FOODS;
+      const categories = ['ทั้งหมด', 'ลดไขมัน/ลีน', 'โปรตีนสูง', 'โลว์คาร์บ/คีโต', 'เมนูสุขภาพไทย'];
+
+      const filteredFoods = sampleFoods.filter(f => foodFilter === 'ทั้งหมด' || f.category === foodFilter);
+
+      const handleSelectSample = (food) => {
+        setAnalyzing(true);
+        setAnalyzedFood(null);
+        setTimeout(() => {
+          setAnalyzing(false);
+          setAnalyzedFood(food);
+        }, 900);
+      };
+
+      const handleLogFood = () => {
+        if (!analyzedFood) return;
+
+        setUserStats(prev => ({
+          ...prev,
+          calories: prev.calories + analyzedFood.calories,
+          protein: prev.protein + analyzedFood.protein,
+          carbs: prev.carbs + analyzedFood.carbs,
+          fat: prev.fat + analyzedFood.fat
+        }));
+
+        setTimeline(prev => [
+          ...prev,
+          {
+            id: Date.now(),
+            time: 'เมื่อสักครู่',
+            title: `บันทึกอาหาร: ${analyzedFood.name}`,
+            type: 'food',
+            completed: true,
+            tag: `${analyzedFood.calories} kcal`
+          }
+        ]);
+
+        showToast(`บันทึก ${analyzedFood.name} (${analyzedFood.calories} kcal) แล้ว!`);
+        setAnalyzedFood(null);
+      };
+
+      return (
+        <div className="space-y-5 animate-fadeIn w-full">
+          <div className="bg-gradient-to-r from-emerald-600 via-teal-700 to-indigo-800 rounded-3xl p-5 sm:p-6 text-white shadow-xl flex items-center justify-between border border-white/20">
+            <div>
+              <span className="bg-white/20 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider text-lime-400">
+                AI Food Vision
+              </span>
+              <h2 className="text-xl sm:text-2xl font-bold mt-1">สแกนอาหาร & คำนวณแคลอรี Real-time</h2>
+              <p className="text-xs text-teal-100 mt-0.5">วิเคราะห์ดัชนีน้ำตาลและโภชนาการอัตโนมัติ</p>
+            </div>
+            <Icon name="camera" className="w-8 h-8 text-lime-400 flex-shrink-0" />
+          </div>
+
+          {/* Category Filters */}
+          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar w-full">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setFoodFilter(cat)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all border ${
+                  foodFilter === cat ? 'bg-lime-400 text-slate-950 border-lime-400 font-black' : isDark ? 'bg-white/5 border-white/10 text-slate-400' : 'bg-white border-slate-200 text-slate-600'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Sample Dishes Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full">
+            {filteredFoods.map((item) => (
+              <div 
+                key={item.id}
+                onClick={() => handleSelectSample(item)}
+                className={`rounded-2xl overflow-hidden border cursor-pointer transition-all group ${
+                  isDark ? 'bg-slate-900/60 border-white/10 hover:border-lime-400' : 'bg-white border-slate-200 shadow-sm'
+                }`}
+              >
+                <div className="aspect-[16/11] relative overflow-hidden bg-slate-900">
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                  <span className="absolute bottom-1.5 right-1.5 bg-black/70 text-lime-400 text-[10px] font-black px-1.5 py-0.5 rounded">
+                    {item.calories} kcal
+                  </span>
+                </div>
+                <div className="p-2.5">
+                  <p className="text-xs font-bold truncate group-hover:text-lime-400">{item.name}</p>
+                  <p className="text-[10px] text-slate-400 mt-0.5">โปรตีน {item.protein}g • คาร์บ {item.carbs}g</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {analyzing && (
+            <div className={`p-6 rounded-3xl border text-center space-y-2 ${isDark ? 'glass-card-dark' : 'glass-card-light'}`}>
+              <div className="w-8 h-8 border-3 border-lime-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
+              <p className="text-xs font-bold">AI กำลังวิเคราะห์โภชนาการและดัชนีน้ำตาล...</p>
+            </div>
+          )}
+
+          {/* FIXED POPUP: Uses fixed inset-0 w-full h-full overflow-hidden */}
+          {analyzedFood && !analyzing && (
+            <div className={`fixed inset-0 z-50 flex flex-col w-full h-full overflow-hidden transition-all duration-200 animate-fadeIn ${
+              isDark ? 'bg-slate-950 text-white' : 'bg-slate-50 text-slate-900'
+            }`}>
+              
+              <div className={`flex-shrink-0 px-4 sm:px-6 py-3 border-b flex items-center justify-between shadow-md ${
+                isDark ? 'bg-slate-950/95 border-slate-800' : 'bg-white/95 border-slate-200'
+              }`}>
+                <button 
+                  onClick={() => setAnalyzedFood(null)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 transition-all"
+                >
+                  <Icon name="chevronLeft" className="w-4 h-4 stroke-[3]" /> ย้อนกลับ
+                </button>
+                <div className="text-xs sm:text-sm font-black truncate max-w-[200px]">{analyzedFood.name}</div>
+                <button onClick={() => setAnalyzedFood(null)} className="p-1.5 rounded-xl hover:bg-white/10">
+                  <Icon name="x" className="w-5 h-5 text-slate-400" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto w-full max-w-2xl mx-auto p-4 sm:p-6 space-y-5 min-w-0">
+                <div className="relative rounded-2xl overflow-hidden aspect-[16/9] bg-slate-900 border border-white/10 shadow-lg">
+                  <img src={analyzedFood.image} alt={analyzedFood.name} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent flex items-end p-4 justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold text-lime-400 bg-black/60 px-2 py-0.5 rounded-full">{analyzedFood.category}</span>
+                      <h3 className="text-lg font-black text-white mt-1">{analyzedFood.name}</h3>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-black text-lime-400">{analyzedFood.calories}</div>
+                      <div className="text-[9px] text-slate-300 uppercase">kcal</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full">
+                  <div className="bg-emerald-500/15 p-3 rounded-2xl border border-emerald-500/30 text-center">
+                    <div className="text-[11px] text-emerald-400 font-bold">โปรตีน</div>
+                    <div className="text-lg font-black mt-0.5">{analyzedFood.protein}g</div>
+                  </div>
+                  <div className="bg-indigo-500/15 p-3 rounded-2xl border border-indigo-500/30 text-center">
+                    <div className="text-[11px] text-indigo-400 font-bold">คาร์บ</div>
+                    <div className="text-lg font-black mt-0.5">{analyzedFood.carbs}g</div>
+                  </div>
+                  <div className="bg-amber-500/15 p-3 rounded-2xl border border-amber-500/30 text-center">
+                    <div className="text-[11px] text-amber-400 font-bold">ไขมัน</div>
+                    <div className="text-lg font-black mt-0.5">{analyzedFood.fat}g</div>
+                  </div>
+                  <div className="bg-cyan-500/15 p-3 rounded-2xl border border-cyan-500/30 text-center">
+                    <div className="text-[11px] text-cyan-400 font-bold">ดัชนีน้ำตาล</div>
+                    <div className="text-sm font-black mt-1">{analyzedFood.glycemicIndex}</div>
+                  </div>
+                </div>
+
+                <div className={`p-4 rounded-2xl border text-xs leading-relaxed ${
+                  isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
+                }`}>
+                  <span className="text-lime-400 font-bold">คำแนะนำโภชนาการ: </span>
+                  {analyzedFood.alignment}
+                </div>
+              </div>
+
+              <div className={`flex-shrink-0 p-3 sm:p-4 border-t ${
+                isDark ? 'bg-slate-950/95 border-slate-800' : 'bg-white/95 border-slate-200'
+              }`}>
+                <div className="max-w-2xl mx-auto flex items-center justify-between gap-3">
+                  <button onClick={() => setAnalyzedFood(null)} className="px-4 py-2.5 rounded-xl text-xs font-bold bg-white/10">ยกเลิก</button>
+                  <button onClick={handleLogFood} className="flex-1 py-2.5 bg-lime-400 hover:bg-lime-500 text-slate-950 font-black text-xs rounded-xl shadow-lg">บันทึกลงตารางประจำวัน</button>
+                </div>
+              </div>
+
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ==========================================
+    // 5. MEDICATION TRACKER VIEW
+    // ==========================================
+    function MedicationTrackerView({ theme, showToast }) {
+      const isDark = theme === 'dark';
+      const [medsList, setMedsList] = useState(STATIC_DEFAULT_MEDS);
+      const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+      const [newMedForm, setNewMedForm] = useState({
+        name: '', category: 'ยาประจำตัว', dosage: '1 เม็ด', dosageAmount: 1, timing: 'หลังอาหารเช้า', time: '08:00 น.', stock: 30, minStock: 5, notes: ''
+      });
+      const [selectedMedsForCheck, setSelectedMedsForCheck] = useState(['Metformin', 'สมุนไพรเซนต์จอห์นเวิร์ต']);
+      const [interactionResult, setInteractionResult] = useState(null);
+      const [cartCount, setCartCount] = useState(0);
+
+      const handleTakeMedication = (id, name, amount) => {
+        setMedsList(prev => prev.map(m => m.id === id ? { ...m, stock: Math.max(0, m.stock - (amount || 1)) } : m));
+        showToast(`บันทึกการทานยา ${name} เรียบร้อย! 💊`);
+      };
+
+      const handleSaveMedication = (e) => {
+        e.preventDefault();
+        if (!newMedForm.name.trim()) return;
+        const created = {
+          id: Date.now(),
+          ...newMedForm,
+          image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=300'
+        };
+        setMedsList([created, ...medsList]);
+        setIsAddModalOpen(false);
+        showToast(`เพิ่ม ${newMedForm.name} ลงตารางแจ้งเตือนแล้ว!`);
+      };
+
+      const checkInteractions = () => {
+        if (selectedMedsForCheck.includes('Metformin') && selectedMedsForCheck.includes('สมุนไพรเซนต์จอห์นเวิร์ต')) {
+          setInteractionResult({
+            type: 'warning',
+            title: 'แจ้งเตือน: พบปฏิกิริยาระดับปานกลาง!',
+            msg: 'สมุนไพรเซนต์จอห์นเวิร์ตอาจกระทบประสิทธิภาพการคุมระดับน้ำตาลของ Metformin'
+          });
+        } else {
+          setInteractionResult({
+            type: 'safe',
+            title: 'ปลอดภัย: ไม่พบอันตรกิริยารุนแรง',
+            msg: 'สามารถรับประทานร่วมกันได้ตามขนาดการใช้งานปกติ'
+          });
+        }
+      };
+
+      return (
+        <div className="space-y-5 animate-fadeIn w-full">
+          <div className="bg-gradient-to-r from-teal-800 via-indigo-900 to-slate-900 rounded-3xl p-5 sm:p-6 text-white shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-white/20">
+            <div>
+              <span className="bg-lime-400 text-slate-950 text-xs px-3 py-1 rounded-full font-black uppercase">
+                Smart Medication Schedule
+              </span>
+              <h2 className="text-xl sm:text-2xl font-bold mt-2">ตารางเวลาทานยาและเวชภัณฑ์</h2>
+              <p className="text-teal-100 text-xs mt-1">เตือนทานยา ตัดสต็อก และสั่งซื้อเวชภัณฑ์ส่งด่วนใน 1 ชม.</p>
+            </div>
+            <button 
+              onClick={() => setIsAddModalOpen(true)}
+              className="px-4 py-2 bg-lime-400 hover:bg-lime-500 text-slate-950 font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5"
+            >
+              <Icon name="plus" className="w-4 h-4 stroke-[2.5]" /> + เพิ่มยาใหม่
+            </button>
+          </div>
+
+          {/* Meds List */}
+          <div className="space-y-3 w-full">
+            {medsList.map((med) => {
+              const isLow = med.stock <= med.minStock;
+              return (
+                <div 
+                  key={med.id}
+                  className={`p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                    isDark ? 'bg-slate-800/90 border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-900 shadow-sm'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <img src={med.image} alt={med.name} className="w-12 h-12 rounded-xl object-cover flex-shrink-0" />
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-sm font-bold">{med.name}</span>
+                        <span className="text-[10px] bg-lime-400 text-slate-950 font-black px-1.5 py-0.2 rounded">{med.dosage}</span>
+                      </div>
+                      <div className="text-xs text-slate-400 mt-0.5">⏱️ {med.time} • {med.timing}</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3 self-end sm:self-center">
+                    <div className="text-right">
+                      <div className={`text-xs font-black ${isLow ? 'text-amber-400' : 'text-slate-400'}`}>เหลือ {med.stock} หน่วย</div>
+                      {isLow && <div className="text-[10px] text-amber-400 font-bold">ยาใกล้หมด</div>}
+                    </div>
+                    <button 
+                      onClick={() => handleTakeMedication(med.id, med.name, med.dosageAmount)}
+                      disabled={med.stock <= 0}
+                      className="px-3.5 py-1.5 bg-lime-400 text-slate-950 text-xs font-black rounded-xl hover:bg-lime-500 disabled:opacity-50"
+                    >
+                      ทานเรียบร้อย
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* AI Drug Interaction Checker */}
+          <div className="bg-gradient-to-br from-slate-900 to-indigo-950 rounded-3xl p-5 text-white space-y-3 border border-white/20">
+            <h3 className="text-sm font-bold flex items-center gap-1.5 text-lime-400">
+              <Icon name="shieldCheck" className="w-4 h-4" /> AI ตรวจจับปฏิกิริยาระหว่างยา
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {['Metformin', 'สมุนไพรเซนต์จอห์นเวิร์ต', 'วิตามิน D3', 'Omega-3'].map(item => (
+                <button
+                  key={item}
+                  onClick={() => setSelectedMedsForCheck(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item])}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold border transition-all ${
+                    selectedMedsForCheck.includes(item) ? 'bg-lime-400 text-slate-950 border-lime-400 font-black' : 'bg-white/10 text-slate-300 border-white/10'
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+            <button onClick={checkInteractions} className="w-full py-2 bg-lime-400 text-slate-950 font-black text-xs rounded-xl shadow-md">
+              ตรวจปฏิกิริยาระหว่างยา
+            </button>
+            {interactionResult && (
+              <div className={`p-3 rounded-xl text-xs ${interactionResult.type === 'warning' ? 'bg-amber-500/20 text-amber-200' : 'bg-emerald-500/20 text-emerald-200'}`}>
+                <div className="font-bold">{interactionResult.title}</div>
+                <div>{interactionResult.msg}</div>
+              </div>
+            )}
+          </div>
+
+          {/* Marketplace */}
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <h3 className="text-sm font-bold">ร้านเวชภัณฑ์จัดส่งด่วนใน 1 ชั่วโมง</h3>
+              <div className="text-xs text-lime-400 font-bold">ตะกร้า: {cartCount} ชิ้น</div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+              {STATIC_MARKET_PRODUCTS.map((prod, i) => (
+                <div key={i} className={`p-4 rounded-2xl border flex flex-col justify-between ${isDark ? 'glass-card-dark' : 'glass-card-light'}`}>
+                  <div>
+                    <span className="text-[10px] font-black bg-lime-400 text-slate-950 px-2 py-0.5 rounded-full">{prod.tag}</span>
+                    <h4 className="text-xs sm:text-sm font-bold mt-1.5">{prod.name}</h4>
+                    <p className="text-[11px] text-slate-400 mt-0.5">{prod.properties}</p>
+                  </div>
+                  <div className="pt-2 mt-2 border-t border-white/10 flex justify-between items-center">
+                    <span className="text-sm font-black text-lime-400">{prod.price}</span>
+                    <button 
+                      onClick={() => { setCartCount(c => c + 1); showToast(`เพิ่ม ${prod.name} ลงตะกร้าแล้ว! 🛒`); }}
+                      className="px-3 py-1 bg-lime-400 text-slate-950 text-xs font-black rounded-xl hover:bg-lime-500"
+                    >
+                      สั่งซื้อส่งด่วน
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Add Med Modal */}
+          {isAddModalOpen && (
+            <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+              <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 space-y-3.5 text-white">
+                <h3 className="text-base font-bold">เพิ่มยาใหม่เข้าตารางแจ้งเตือน</h3>
+                <form onSubmit={handleSaveMedication} className="space-y-3 text-xs">
+                  <div>
+                    <label className="block text-slate-300 mb-1">ชื่อยา *</label>
+                    <input 
+                      type="text" 
+                      required 
+                      value={newMedForm.name} 
+                      onChange={e => setNewMedForm({ ...newMedForm, name: e.target.value })} 
+                      className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white" 
+                      placeholder="เช่น Amoxicillin 500mg" 
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-slate-300 mb-1">ขนาดรับประทาน</label>
+                      <input 
+                        type="text" 
+                        value={newMedForm.dosage} 
+                        onChange={e => setNewMedForm({ ...newMedForm, dosage: e.target.value })} 
+                        className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white" 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-300 mb-1">เวลาทาน</label>
+                      <input 
+                        type="text" 
+                        value={newMedForm.time} 
+                        onChange={e => setNewMedForm({ ...newMedForm, time: e.target.value })} 
+                        className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white" 
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-2 pt-2">
+                    <button type="submit" className="flex-1 py-2.5 bg-lime-400 text-slate-950 font-black rounded-xl">บันทึก</button>
+                    <button type="button" onClick={() => setIsAddModalOpen(false)} className="px-4 py-2.5 bg-white/10 rounded-xl">ยกเลิก</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ==========================================
+    // 6. TELEMEDICINE VIEW
+    // ==========================================
+    function TelemedicineView({ theme, showToast }) {
+      const isDark = theme === 'dark';
+      const [messages, setMessages] = useState([
+        { sender: 'ai', text: 'สวัสดีครับคุณศิรินทร์ ผมคือระบบคัดกรองอาการเบื้องต้น Aura AI ปัจจุบันคุณมีอาการไม่สบายหรือต้องการปรึกษาแพทย์เฉพาะทางด้านใดครับ?' }
+      ]);
+      const [input, setInput] = useState('');
+      const [appointmentType, setAppointmentType] = useState('visit');
+      const [activeDate, setActiveDate] = useState('14 Tue');
+      const [activeTime, setActiveTime] = useState('13:00');
+
+      const handleSend = () => {
+        if (!input.trim()) return;
+        const text = input;
+        setMessages(prev => [...prev, { sender: 'user', text }]);
+        setInput('');
+
+        setTimeout(() => {
+          setMessages(prev => [
+            ...prev,
+            { sender: 'ai', text: 'ประเมินจากอาการที่ระบุ จัดอยู่ในกลุ่มสีเขียว (ความรุนแรงต่ำ) หากต้องการนัดหมายแพทย์เฉพาะทาง คุณสามารถกดปุ่ม "Appointment" กับ พญ. เอมิลี่ ปีเตอร์สัน ได้ทันทีครับ' }
+          ]);
+        }, 500);
+      };
+
+      return (
+        <div className="space-y-5 animate-fadeIn w-full">
+          {/* Appointment Hero Card */}
+          <div className="bg-gradient-to-b from-[#2B47FC] via-[#3730A3] to-[#1E1B4B] rounded-3xl p-5 sm:p-6 text-white shadow-xl border border-white/20 space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <span className="text-xs font-medium text-indigo-200">Cardiologist</span>
+                <h2 className="text-2xl font-black mt-0.5">Emily Peterson</h2>
+                <div className="flex items-center gap-1.5 mt-1.5">
+                  <span className="w-2 h-2 rounded-full bg-lime-400"></span>
+                  <span className="text-xs text-lime-400 font-bold">Online พร้อมให้คำปรึกษา</span>
+                </div>
+              </div>
+              <img 
+                src="https://images.unsplash.com/photo-1594824813583-36c1e57c6b90?auto=format&fit=crop&q=80&w=260" 
+                alt="Doctor" 
+                className="w-24 h-24 rounded-2xl object-cover border-2 border-white/30 shadow-lg"
+              />
+            </div>
+
+            {/* Appointment Booking Panel */}
+            <div className="bg-white text-slate-900 rounded-2xl p-4 shadow-lg space-y-3">
+              <div className="grid grid-cols-2 gap-2">
+                <button 
+                  onClick={() => setAppointmentType('visit')}
+                  className={`py-2 px-3 rounded-xl text-xs font-bold ${appointmentType === 'visit' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'}`}
+                >
+                  Visit
+                </button>
+                <button 
+                  onClick={() => setAppointmentType('virtual')}
+                  className={`py-2 px-3 rounded-xl text-xs font-bold ${appointmentType === 'virtual' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'}`}
+                >
+                  Virtual
+                </button>
+              </div>
+
+              <div className="flex justify-between gap-1 overflow-x-auto text-xs no-scrollbar">
+                {['12 Sun', '13 Mon', '14 Tue', '15 Wed', '16 Thu'].map(d => (
+                  <button
+                    key={d}
+                    onClick={() => setActiveDate(d)}
+                    className={`py-1.5 px-2.5 rounded-lg font-bold whitespace-nowrap ${activeDate === d ? 'bg-lime-400 text-slate-950 font-black' : 'bg-slate-100 text-slate-600'}`}
+                  >
+                    {d}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex justify-between gap-1 overflow-x-auto text-xs no-scrollbar">
+                {['10:00', '11:00', '12:00', '13:00', '14:00'].map(t => (
+                  <button
+                    key={t}
+                    onClick={() => setActiveTime(t)}
+                    className={`py-1.5 px-2.5 rounded-lg font-bold whitespace-nowrap ${activeTime === t ? 'bg-lime-400 text-slate-950 font-black' : 'bg-slate-100 text-slate-600'}`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+
+              <button 
+                onClick={() => showToast(`นัดหมายแพทย์สำเร็จ: ${activeDate} เวลา ${activeTime} น. 🩺`)}
+                className="w-full py-3 px-4 rounded-xl bg-slate-900 text-white font-black text-xs shadow-md flex items-center justify-between"
+              >
+                <span>Make an Appointment</span>
+                <span className="text-lime-400 font-black">›››</span>
+              </button>
+            </div>
+          </div>
+
+          {/* AI Clinical Symptom Chat Assistant */}
+          <div className={`p-4 rounded-3xl border space-y-3 ${isDark ? 'glass-card-dark' : 'glass-card-light'}`}>
+            <div className="text-xs font-bold text-lime-400 flex items-center gap-1.5">
+              <Icon name="sparkles" className="w-3.5 h-3.5" /> Aura Clinical AI Symptom Checker
+            </div>
+
+            <div className="space-y-2 max-h-44 overflow-y-auto pr-1">
+              {messages.map((m, i) => (
+                <div key={i} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[85%] p-2.5 rounded-xl text-xs ${
+                    m.sender === 'user' ? 'bg-lime-400 text-slate-950 font-bold' : 'bg-white/10 text-white'
+                  }`}>
+                    {m.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex gap-2 pt-1 border-t border-white/10">
+              <input 
+                type="text" 
+                placeholder="ระบุอาการของคุณ..."
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleSend()}
+                className="flex-1 text-xs px-3 py-2 rounded-xl bg-white/10 border border-white/15 text-white placeholder-slate-400 focus:outline-none focus:border-lime-400"
+              />
+              <button onClick={handleSend} className="px-3.5 py-2 rounded-xl bg-lime-400 text-slate-950 text-xs font-bold">
+                <Icon name="send" className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // --- Mount App ---
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
